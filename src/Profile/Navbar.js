@@ -5,7 +5,7 @@ import Divider from "@material-ui/core/Divider";
 import Paper from "@material-ui/core/Paper";
 import InputBase from "@material-ui/core/InputBase";
 import avatarUrl from "../Image/avatar";
-import { useStyles } from "./styles/NavbarStyle";
+import { useStyles } from "./styles/lightStyles/NavbarStyle";
 import { useDarkStyles } from "./styles/darkStyles/DarkNavbarStyle";
 import { ThemeContext } from "../Profile/contexts/Theme.context";
 // import classes from "./Nav.module.css";

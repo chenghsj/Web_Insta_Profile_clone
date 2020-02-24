@@ -4,7 +4,7 @@ import Info from "./Info";
 import PhotoList from "./PhotoList";
 import Divider from "@material-ui/core/Divider";
 import Switch from "@material-ui/core/Switch";
-import { useStyles } from "./styles/InstaStyle";
+import { useStyles } from "./styles/lightStyles/InstaStyle";
 import { useDarkStyles } from "./styles/darkStyles/darkInstaStyle";
 import { ThemeContext } from "./contexts/Theme.context";
 

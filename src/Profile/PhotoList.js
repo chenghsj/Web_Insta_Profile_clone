@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { initialState, randNum } from "./tileData";
-import { useStyles } from "./styles/PhotoListStyle";
+import { useStyles } from "./styles/lightStyles/PhotoListStyle";
 
 export default function PhotoList({ Num }) {
   const [tileData, setTileData] = useState([]);

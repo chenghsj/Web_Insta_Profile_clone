@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import avatarUrl from "../Image/avatar";
-import { useStyles } from "./styles/InfoStyle";
+import { useStyles } from "./styles/lightStyles/InfoStyle";
 import { useDarkStyles } from "./styles/darkStyles/darkInfoStyle";
 import { ThemeContext } from "./contexts/Theme.context";
 
