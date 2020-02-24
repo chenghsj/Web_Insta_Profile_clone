@@ -4,6 +4,12 @@ import { useStyles } from "./styles/PhotoListStyle";
 
 export default function PhotoList({ Num }) {
   const [tileData, setTileData] = useState([]);
+  // eslint-disable-next-line no-unused-vars
+  const [state, setState] = useState({
+    like: randNum(),
+    comment: randNum()
+  });
+  const { like, comment } = state;
 
   useEffect(() => {
     setTileData(initialState(Num));
@@ -22,9 +28,9 @@ export default function PhotoList({ Num }) {
         >
           <div className={classes.mask}>
             <i class="fas fa-heart"></i>
-            <p>{randNum()}</p>
+            <p>{like}</p>
             <i class="fas fa-comment"></i>
-            <p>{randNum()}</p>
+            <p>{comment}</p>
           </div>
         </div>
       ))}

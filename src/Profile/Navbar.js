@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import SearchIcon from "@material-ui/icons/Search";
 import Divider from "@material-ui/core/Divider";
@@ -6,11 +6,17 @@ import Paper from "@material-ui/core/Paper";
 import InputBase from "@material-ui/core/InputBase";
 import avatarUrl from "../Image/avatar";
 import { useStyles } from "./styles/NavbarStyle";
-
+import { useDarkStyles } from "./styles/darkStyles/DarkNavbarStyle";
+import { ThemeContext } from "../Profile/contexts/Theme.context";
 // import classes from "./Nav.module.css";
 
 function Navbar() {
-  const classes = useStyles();
+  const theme = useContext(ThemeContext);
+  const { isDarkMode } = theme;
+  const light = useStyles();
+  const dark = useDarkStyles();
+  const classes = isDarkMode ? dark : light;
+
   return (
     <Paper className={classes.container}>
       <div className={classes.Brand}>

@@ -1,12 +1,17 @@
 import React from "react";
 import Insta from "./Insta";
 import "./App.css";
+import PageBackground from "./PageBackground";
+import { ThemeProvider } from "./Profile/contexts/Theme.context";
 
 function App() {
   return (
-    <div className="App">
-      <Insta />
-    </div>
+    <ThemeProvider>
+      <div className="App">
+        <PageBackground></PageBackground>
+        <Insta />
+      </div>
+    </ThemeProvider>
   );
 }
 

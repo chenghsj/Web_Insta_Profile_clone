@@ -1,12 +1,26 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import avatarUrl from "../Image/avatar";
 import { useStyles } from "./styles/InfoStyle";
+import { useDarkStyles } from "./styles/darkStyles/darkInfoStyle";
+import { ThemeContext } from "./contexts/Theme.context";
 
 const randNum = () => Math.floor(Math.random() * 500);
 
 function Head() {
-  const classes = useStyles();
+  const theme = useContext(ThemeContext);
+  const { isDarkMode } = theme;
+  const light = useStyles();
+  const dark = useDarkStyles();
+  const classes = isDarkMode ? dark : light;
+  // eslint-disable-next-line no-unused-vars
+  const [state, setState] = useState({
+    posts: randNum(),
+    followers: randNum(),
+    following: randNum()
+  });
+  const { posts, followers, following } = state;
+
   return (
     <div className={classes.container}>
       <div className={classes.offCircle}>
@@ -23,13 +37,13 @@ function Head() {
         </div>
         <div className={classes.followInfo}>
           <p>
-            <strong>{randNum()}</strong> posts
+            <strong>{posts}</strong> posts
           </p>
           <p>
-            <strong>{randNum()}</strong> followers
+            <strong>{followers}</strong> followers
           </p>
           <p>
-            <strong>{randNum()}</strong> following
+            <strong>{following}</strong> following
           </p>
         </div>
         <div>
