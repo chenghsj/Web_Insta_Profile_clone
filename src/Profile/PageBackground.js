@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { ThemeContext } from "./Profile/contexts/Theme.context";
+import { ThemeContext } from "./contexts/Theme.context";
 
 export default function PageBackground(props) {
   const theme = useContext(ThemeContext);
