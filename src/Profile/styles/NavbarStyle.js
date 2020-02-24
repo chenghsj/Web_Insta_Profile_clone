@@ -1,15 +1,20 @@
 import { makeStyles } from "@material-ui/core/styles";
 
+const displayFlex = {
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center"
+};
+
 export const useStyles = makeStyles(theme => ({
   container: {
+    ...displayFlex,
+    justifyContent: "space-between",
     position: "sticky",
     top: 0,
     left: 0,
     width: "calc(100%-5px)",
     height: "6%",
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
     borderRadius: 0,
     padding: "10px 20px 10px 20px",
     zIndex: 20
@@ -58,13 +63,11 @@ export const useStyles = makeStyles(theme => ({
     alignItems: "center"
   },
   searchIcon: {
+    ...displayFlex,
     width: theme.spacing(7),
     height: "100%",
     position: "absolute",
     pointerEvents: "none",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
     color: "#8a8a8a"
   },
   inputRoot: {

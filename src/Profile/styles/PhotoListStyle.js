@@ -7,22 +7,8 @@ export const useStyles = makeStyles(theme => ({
     flexWrap: "wrap",
     justifyContent: "space-around",
     backgroundColor: "rgba(255, 255, 255, 0)",
-    padding: "1rem"
+    padding: "2%"
   },
-  gridList: {
-    display: "inline-block",
-    width: "100%",
-    height: "inherit",
-    padding: "3rem"
-  },
-  // row: {
-  //   position: "absolute",
-  //   right: "1rem",
-  //   margin: "0.5rem"
-  // },
-  // col: {
-  //   marginBottom: "0.5rem"
-  // },
   gridListTile: {
     position: "relative",
     width: "30%",

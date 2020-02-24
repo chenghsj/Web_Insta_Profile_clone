@@ -10,45 +10,18 @@ function Head() {
   return (
     <div className={classes.container}>
       <div className={classes.offCircle}>
-        <Avatar className={classes.avatar} src={avatarUrl} />
+        <div className={classes.innerCircle}>
+          <Avatar className={classes.avatar} src={avatarUrl} />
+        </div>
       </div>
       <div className={classes.info}>
         <div className={classes.nameBlock}>
           <p>Lorem</p>
-          <button
-            style={{
-              marginLeft: "-1rem",
-              border: "1px solid #b5b5b5",
-              borderRadius: "4px",
-              padding: "4px 5px",
-              fontWeight: "600",
-              fontSize: "1rem",
-              cursor: "pointer"
-            }}
-          >
-            Flowing
-          </button>
-          <button
-            class="fas fa-caret-down"
-            style={{
-              marginLeft: "0.5rem",
-              border: "1px solid #b5b5b5",
-              borderRadius: "4px",
-              padding: "7px 10px",
-              fontWeight: "600",
-              cursor: "pointer"
-            }}
-          ></button>
-          <i
-            class="fas fa-ellipsis-h"
-            style={{
-              fontSize: "1rem",
-              marginLeft: "1rem",
-              cursor: "pointer"
-            }}
-          ></i>
+          <button className={classes.followBtn}>Flowing</button>
+          <button className={`fas fa-caret-down ${classes.caretDown}`}></button>
+          <i className={`fas fa-ellipsis-h ${classes.more}`}></i>
         </div>
-        <div className={classes.follow}>
+        <div className={classes.followInfo}>
           <p>
             <strong>{randNum()}</strong> posts
           </p>

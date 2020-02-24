@@ -1,5 +1,7 @@
 import { makeStyles } from "@material-ui/core/styles";
 
+const backgroundColor = "#FAFAFA";
+
 export const useStyles = makeStyles(theme => ({
   container: {
     marginTop: "1%",
@@ -27,10 +29,19 @@ export const useStyles = makeStyles(theme => ({
       margin: 0
     }
   },
+  innerCircle: {
+    width: "93%",
+    height: "93%",
+    borderRadius: "50%",
+    backgroundColor: backgroundColor,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center"
+  },
   avatar: {
-    width: "90%",
-    height: "90%",
-    border: "2px solid #FAFAFA"
+    width: "93%",
+    height: "93%",
+    border: "1px solid #d3d3d3"
   },
 
   info: {
@@ -52,7 +63,31 @@ export const useStyles = makeStyles(theme => ({
       marginRight: "2rem"
     }
   },
-  follow: {
+  followBtn: {
+    marginLeft: "-1rem",
+    border: "1px solid #b5b5b5",
+    borderRadius: "4px",
+    padding: "4px 5px",
+    fontWeight: "600",
+    fontSize: "1rem",
+    cursor: "pointer",
+    outline: "none"
+  },
+  caretDown: {
+    marginLeft: "0.5rem",
+    border: "1px solid #b5b5b5",
+    borderRadius: "4px",
+    padding: "7px 10px",
+    fontWeight: "600",
+    cursor: "pointer",
+    outline: "none"
+  },
+  more: {
+    fontSize: "1rem",
+    marginLeft: "1rem",
+    cursor: "pointer"
+  },
+  followInfo: {
     display: "flex",
     justifyContent: "flex-start",
     alignItems: "center",
