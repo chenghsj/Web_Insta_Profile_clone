@@ -1,17 +1,24 @@
 import uuid from "uuid/v4";
 const randNum = () => Math.floor(Math.random() * 500);
 
+const geRandArray = Num => {
+  let randSet = new Set();
+  while (randSet.size < Num) {
+    randSet.add(randNum());
+  }
+  let randArray = [...randSet];
+  return randArray;
+};
+
 const initialState = Num => {
-  return Array(Num)
-    .fill()
-    .map(() => {
-      let urlNum = randNum();
-      return {
-        img: `https://source.unsplash.com/random/300x300?${urlNum}`,
-        id: uuid(),
-        key: urlNum
-      };
-    });
+  const randNumArray = geRandArray(Num);
+  return randNumArray.map(value => ({
+    img: `https://source.unsplash.com/random/300x300?${value}`,
+    id: uuid(),
+    key: value
+  }));
 };
 
 export { initialState, randNum };
+
+// [randNum(),randNum(),randNum(),randNum(),...]

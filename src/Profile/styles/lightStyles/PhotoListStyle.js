@@ -12,7 +12,6 @@ export const useStyles = makeStyles(theme => ({
   gridListTile: {
     position: "relative",
     width: "30%",
-    // height: "237px",
     margin: "0.5rem",
     borderRadius: "7px",
     "&:after": {
