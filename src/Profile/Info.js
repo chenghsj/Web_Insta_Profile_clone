@@ -23,11 +23,13 @@ function Head() {
 
   return (
     <div className={classes.container}>
-      <div className={classes.offCircle}>
+      <div className={classes.avatarContainer}>
+        <div className={classes.offCircle}></div>
         <div className={classes.innerCircle}>
           <Avatar className={classes.avatar} src={avatarUrl} />
         </div>
       </div>
+
       <div className={classes.info}>
         <div className={classes.nameBlock}>
           <p>Lorem</p>

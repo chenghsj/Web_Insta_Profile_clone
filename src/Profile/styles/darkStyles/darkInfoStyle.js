@@ -17,25 +17,35 @@ export const useDarkStyles = makeStyles(theme => ({
       marginTop: "7%"
     }
   },
-  offCircle: {
+  avatarContainer: {
+    position: "relative",
     width: "120px",
     height: "120px",
+    marginLeft: "7%"
+  },
+  offCircle: {
+    position: "absolute",
+    width: "100%",
+    height: "100%",
     // backgroundColor: "#FAFAFA",
     background: "linear-gradient(90deg, #ee0979 0%,#ff6a00 100% )",
     borderRadius: "50%",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    marginLeft: "7%",
+    animation: "$rotate 2s linear infinite",
     [theme.breakpoints.down("xs")]: {
       margin: 0
     }
   },
   innerCircle: {
-    width: "95%",
-    height: "95%",
+    position: "absolute",
+    top: "3.5%",
+    left: "3.5%",
+    width: "93%",
+    height: "93%",
     borderRadius: "50%",
-    backgroundColor,
+    backgroundColor: backgroundColor,
     display: "flex",
     justifyContent: "center",
     alignItems: "center"
@@ -102,6 +112,23 @@ export const useDarkStyles = makeStyles(theme => ({
     color: fontColor,
     "& p": {
       marginRight: "10px"
+    }
+  },
+  "@keyframes rotate": {
+    "0%": {
+      transform: "rotate(0deg)"
+    },
+    "25%": {
+      transform: "rotate(90deg)"
+    },
+    "50%": {
+      transform: "rotate(180deg)"
+    },
+    "75%": {
+      transform: "rotate(270deg)"
+    },
+    "100%": {
+      transform: "rotate(360deg)"
     }
   }
 }));
