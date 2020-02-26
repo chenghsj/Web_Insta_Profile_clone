@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import avatarUrl from "../Image/avatar";
 import { useStyles } from "./styles/lightStyles/InfoStyle";

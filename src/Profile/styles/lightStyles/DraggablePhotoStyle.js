@@ -1,8 +1,6 @@
-import React from "react";
-import { SortableElement } from "react-sortable-hoc";
 import { makeStyles } from "@material-ui/core/styles";
 
-const useStyles = makeStyles(theme => ({
+export const useStyles = makeStyles(theme => ({
   root: {
     position: "relative",
     width: "30%",
@@ -38,26 +36,18 @@ const useStyles = makeStyles(theme => ({
       marginLeft: "7px"
     }
   }
+  // overlay: {
+  //   width: "100%",
+  //   height: "100%",
+  //   opacity: 0,
+  //   zIndex: 1,
+  //   transition: "transform 0.5s"
+  // },
+  // showOverlay: {
+  //   position: "absolute",
+  //   opacity: 1,
+  //   transform: "scale(1.5)",
+  //   zIndex: 10,
+  //   borderRadius: "7px"
+  // }
 }));
-
-const DraggablePhoto = props => {
-  const classes = useStyles();
-  const { like, comment } = props.randomNumber;
-  return (
-    <div
-      className={classes.root}
-      style={{
-        backgroundImage: `url(${props.photo})`
-      }}
-    >
-      <div className={classes.mask}>
-        <i class="fas fa-heart"></i>
-        <p>{like}</p>
-        <i class="fas fa-comment"></i>
-        <p>{comment}</p>
-      </div>
-    </div>
-  );
-};
-
-export default SortableElement(DraggablePhoto);

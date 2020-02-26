@@ -8,6 +8,7 @@ const useStyles = makeStyles(theme => ({
     position: "relative",
     display: "flex",
     flexWrap: "wrap",
+    justifyContent: "space-around",
     width: "100%"
   }
 }));

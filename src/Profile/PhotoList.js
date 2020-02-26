@@ -1,17 +1,11 @@
 import React, { useState, useEffect } from "react";
-import DraggablePhotoList from "./DragglePhotoList";
-import { arrayMove } from "react-sortable-hoc";
-import { initialState, randNum } from "./tileData";
-import { useStyles } from "./styles/lightStyles/PhotoListStyle";
-
-const randomNumber = {
-  like: randNum(),
-  comment: randNum()
-};
+import DraggablePhotoList from "./DraggablePhotoComponent/DragglePhotoList";
+import arrayMove from "array-move";
+import { initialState } from "./tileData";
 
 export default function PhotoList({ Num }) {
-  const [state, setState] = useState({ tileData: [] });
-  // const { like, comment } = randomNumber;
+  const [state, setState] = useState({ tileData: [], opened: false });
+
   useEffect(() => {
     setState({ tileData: initialState(Num) });
   }, [Num]);
@@ -21,16 +15,10 @@ export default function PhotoList({ Num }) {
       tileData: arrayMove(tileData, oldIndex, newIndex)
     }));
   };
-  const classes = useStyles();
 
   return (
-    <div className={classes.root}>
-      <DraggablePhotoList
-        tileData={tileData}
-        randomNumber={randomNumber}
-        axis="xy"
-        onSortEnd={onSortEnd}
-      />
+    <div>
+      <DraggablePhotoList tileData={tileData} axis="xy" onSortEnd={onSortEnd} />
     </div>
   );
 }
