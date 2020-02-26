@@ -21,4 +21,4 @@ const initialState = Num => {
 
 export { initialState, randNum };
 
-// [randNum(),randNum(),randNum(),randNum(),...]
+// [{},{},{},{},...]

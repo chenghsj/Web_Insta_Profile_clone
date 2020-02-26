@@ -6,20 +6,18 @@ import { useDarkStyles } from "./styles/darkStyles/darkInfoStyle";
 import { ThemeContext } from "./contexts/Theme.context";
 
 const randNum = () => Math.floor(Math.random() * 500);
+const randomNumber = {
+  posts: randNum(),
+  followers: randNum(),
+  following: randNum()
+};
 
 function Head() {
-  const theme = useContext(ThemeContext);
-  const { isDarkMode } = theme;
+  const { isDarkMode } = useContext(ThemeContext);
   const light = useStyles();
   const dark = useDarkStyles();
   const classes = isDarkMode ? dark : light;
-  // eslint-disable-next-line no-unused-vars
-  const [state, setState] = useState({
-    posts: randNum(),
-    followers: randNum(),
-    following: randNum()
-  });
-  const { posts, followers, following } = state;
+  const { posts, followers, following } = randomNumber;
 
   return (
     <div className={classes.container}>

@@ -9,8 +9,7 @@ import { useDarkStyles } from "./styles/darkStyles/darkInstaStyle";
 import { ThemeContext } from "./contexts/Theme.context";
 
 function Insta() {
-  const theme = useContext(ThemeContext);
-  const { isDarkMode, toggleTheme } = theme;
+  const { isDarkMode, toggleTheme } = useContext(ThemeContext);
   const light = useStyles();
   const dark = useDarkStyles();
   const classes = isDarkMode ? dark : light;

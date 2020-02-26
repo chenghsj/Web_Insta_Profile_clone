@@ -1,39 +1,36 @@
 import React, { useState, useEffect } from "react";
+import DraggablePhotoList from "./DragglePhotoList";
+import { arrayMove } from "react-sortable-hoc";
 import { initialState, randNum } from "./tileData";
 import { useStyles } from "./styles/lightStyles/PhotoListStyle";
 
+const randomNumber = {
+  like: randNum(),
+  comment: randNum()
+};
+
 export default function PhotoList({ Num }) {
-  const [tileData, setTileData] = useState([]);
-  // eslint-disable-next-line no-unused-vars
-  const [state, setState] = useState({
-    like: randNum(),
-    comment: randNum()
-  });
-  const { like, comment } = state;
-
+  const [state, setState] = useState({ tileData: [] });
+  // const { like, comment } = randomNumber;
   useEffect(() => {
-    setTileData(initialState(Num));
+    setState({ tileData: initialState(Num) });
   }, [Num]);
-
+  const { tileData } = state;
+  const onSortEnd = ({ oldIndex, newIndex }) => {
+    setState(({ tileData }) => ({
+      tileData: arrayMove(tileData, oldIndex, newIndex)
+    }));
+  };
   const classes = useStyles();
+
   return (
     <div className={classes.root}>
-      {tileData.map(tile => (
-        <div
-          key={tile.key}
-          className={classes.gridListTile}
-          style={{
-            backgroundImage: `url(${tile.img})`
-          }}
-        >
-          <div className={classes.mask}>
-            <i class="fas fa-heart"></i>
-            <p>{like}</p>
-            <i class="fas fa-comment"></i>
-            <p>{comment}</p>
-          </div>
-        </div>
-      ))}
+      <DraggablePhotoList
+        tileData={tileData}
+        randomNumber={randomNumber}
+        axis="xy"
+        onSortEnd={onSortEnd}
+      />
     </div>
   );
 }

@@ -11,8 +11,7 @@ import { ThemeContext } from "../Profile/contexts/Theme.context";
 // import classes from "./Nav.module.css";
 
 function Navbar() {
-  const theme = useContext(ThemeContext);
-  const { isDarkMode } = theme;
+  const { isDarkMode } = useContext(ThemeContext);
   const light = useStyles();
   const dark = useDarkStyles();
   const classes = isDarkMode ? dark : light;
