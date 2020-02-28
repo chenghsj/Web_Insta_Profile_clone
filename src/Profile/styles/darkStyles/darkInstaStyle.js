@@ -5,8 +5,8 @@ const backgroundColor = "#393939";
 export const useDarkStyles = makeStyles(theme => ({
   container: {
     position: "relative",
+    width: "1000px",
     height: "70vh",
-    width: "90vw",
     backgroundColor,
     boxShadow: "10px 10px 20px rgba(0, 0, 0, 0.7)",
     borderRadius: "5px",
@@ -26,6 +26,12 @@ export const useDarkStyles = makeStyles(theme => ({
     "&::-webkit-scrollbar-track": {
       borderLeft: "1px solid #2a2a2a",
       borderRadius: "0px 5px 5px 0px"
+    },
+    [theme.breakpoints.down("md")]: {
+      width: "80vw"
+    },
+    [theme.breakpoints.down("xs")]: {
+      width: "450px"
     }
   },
   divider: {
@@ -34,7 +40,6 @@ export const useDarkStyles = makeStyles(theme => ({
   },
   toggle: {
     position: "absolute",
-    top: "10vh",
-    right: "4vw"
+    top: "10vh"
   }
 }));
