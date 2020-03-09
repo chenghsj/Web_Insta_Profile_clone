@@ -4,11 +4,15 @@ import arrayMove from "array-move";
 import { initialState } from "./tileData";
 
 export default function PhotoList({ Num }) {
-  const [state, setState] = useState({ tileData: [], opened: false });
+  const [state, setState] = useState({
+    tileData: initialState(Num),
+    opened: false
+  });
 
-  useEffect(() => {
-    setState({ tileData: initialState(Num) });
-  }, [Num]);
+  // useEffect(() => {
+  //   setState({ tileData: initialState(Num) });
+  // }, [Num]);
+
   const { tileData } = state;
   const onSortEnd = ({ oldIndex, newIndex }) => {
     setState(({ tileData }) => ({

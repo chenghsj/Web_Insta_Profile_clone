@@ -3,10 +3,11 @@ const randNum = () => Math.floor(Math.random() * 500);
 
 const geRandArray = Num => {
   let randSet = new Set();
+  let randArray = [];
   while (randSet.size < Num) {
     randSet.add(randNum());
   }
-  let randArray = [...randSet];
+  randArray = [...randSet];
   return randArray;
 };
 
