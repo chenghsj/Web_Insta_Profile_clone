@@ -1,45 +1,35 @@
 import { makeStyles } from "@material-ui/core/styles";
+import { styles } from "../lightStyles/InstaStyle.js";
 
 const backgroundColor = "#393939";
 
-export const useDarkStyles = makeStyles(theme => ({
+export const useDarkStyles = makeStyles((theme) => ({
   container: {
-    position: "relative",
-    width: "1000px",
-    height: "70vh",
+    ...styles.container,
     backgroundColor,
-    boxShadow: "10px 10px 20px rgba(0, 0, 0, 0.7)",
-    borderRadius: "5px",
-    overflowY: "scroll",
-    overflowX: "hidden",
-    "&::-webkit-scrollbar": {
-      width: "10px"
-    },
     "&::-webkit-scrollbar-thumb": {
+      ...styles.container["&::-webkit-scrollbar-thumb"],
       background: "linear-gradient(0deg, #ee0979 0%,#ff6a00 100% )",
-      height: "33%",
-      // border: "1px solid rgba(0,0,0,0)",
-      // backgroundClip: "padding-box",
-      borderRadius: "0px 5px 5px 0px",
-      margin: "5px"
     },
     "&::-webkit-scrollbar-track": {
+      ...styles.container["&::-webkit-scrollbar-track"],
       borderLeft: "1px solid #2a2a2a",
-      borderRadius: "0px 5px 5px 0px"
     },
     [theme.breakpoints.down("md")]: {
-      width: "80vw"
+      ...styles.themeWidth.md,
     },
     [theme.breakpoints.down("xs")]: {
-      width: "450px"
-    }
+      ...styles.themeWidth.xs,
+    },
   },
   divider: {
-    margin: "2%",
-    border: "0.01rem solid #888888"
+    ...styles.divider,
+    backgroundColor: "#888888",
   },
   toggle: {
-    position: "absolute",
-    top: "10vh"
-  }
+    ...styles.toggle,
+    [theme.breakpoints.down("xs")]: {
+      ...styles.themeToggle,
+    },
+  },
 }));

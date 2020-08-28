@@ -1,6 +1,6 @@
 import React from "react";
 import Insta from "./Profile/Insta";
-import "./App.css";
+import "./App.scss";
 import PageBackground from "./Profile/PageBackground";
 import { ThemeProvider } from "./Profile/contexts/Theme.context";
 

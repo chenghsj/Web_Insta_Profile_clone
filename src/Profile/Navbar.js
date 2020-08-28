@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
-import Avatar from "@material-ui/core/Avatar";
-import SearchIcon from "@material-ui/icons/Search";
+import Logo from "../Image/logo.js";
 import Divider from "@material-ui/core/Divider";
 import Paper from "@material-ui/core/Paper";
-import InputBase from "@material-ui/core/InputBase";
-import avatarUrl from "../Image/avatar";
+import GitHubIcon from "@material-ui/icons/GitHub";
+import EmailIcon from "@material-ui/icons/Email";
+import FacebookIcon from "@material-ui/icons/Facebook";
 import { useStyles } from "./styles/lightStyles/NavbarStyle";
 import { useDarkStyles } from "./styles/darkStyles/DarkNavbarStyle";
 import { ThemeContext } from "../Profile/contexts/Theme.context";
@@ -19,27 +19,35 @@ function Navbar() {
   return (
     <Paper className={classes.container}>
       <div className={classes.Brand}>
-        <i className={`${classes.icon} fab fa-instagram`}></i>
+        <Logo height="2rem" color={isDarkMode ? "white" : "black"} />
         <Divider orientation="vertical" className={classes.divider} />
-        <h3 className={classes.title}>Instagram</h3>
-      </div>
-      <div className={classes.search}>
-        <div className={classes.searchIcon}>
-          <SearchIcon />
-        </div>
-        <InputBase
-          placeholder="Search…"
-          classes={{
-            root: classes.inputRoot,
-            input: classes.inputInput
-          }}
-          inputProps={{ "aria-label": "search" }}
-        />
+        <h3 className={classes.title}>Cheng</h3>
       </div>
       <div className={classes.self}>
-        <i className={`${classes.icon} far fa-compass`}></i>
-        <i className={`${classes.icon} far fa-heart`}></i>
-        <Avatar className={classes.avatar} src={avatarUrl} />
+        <a
+          href="https://www.facebook.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <FacebookIcon
+            className={classes.icon}
+            style={{ fontSize: "1.75rem" }}
+          />
+        </a>
+        <a
+          href="https://github.com/chenghsj"
+          className={classes.icon}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <GitHubIcon
+            className={classes.icon}
+            style={{ fontSize: "1.45rem" }}
+          />
+        </a>
+        <a href="mailto:chengjohnsonhs@gmail.com">
+          <EmailIcon className={classes.icon} />
+        </a>
       </div>
     </Paper>
   );

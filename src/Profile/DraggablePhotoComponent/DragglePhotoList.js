@@ -1,19 +1,18 @@
 import React from "react";
-import DraggablePhoto from "./DraggablePhoto";
+import DraggablePhoto from "../Photo";
 import { makeStyles } from "@material-ui/core/styles";
-import { SortableContainer } from "react-sortable-hoc";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     position: "relative",
     display: "flex",
     flexWrap: "wrap",
     justifyContent: "space-around",
-    width: "100%"
-  }
+    width: "100%",
+  },
 }));
 
-const DragglePhotoList = SortableContainer(props => {
+const DragglePhotoList = (props) => {
   const { tileData, randomNumber } = props;
   const classes = useStyles();
   return (
@@ -29,6 +28,6 @@ const DragglePhotoList = SortableContainer(props => {
       ))}
     </div>
   );
-});
+};
 
 export default DragglePhotoList;

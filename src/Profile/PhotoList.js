@@ -1,28 +1,49 @@
 import React, { useState, useEffect } from "react";
-import DraggablePhotoList from "./DraggablePhotoComponent/DragglePhotoList";
-import arrayMove from "array-move";
-import { initialState } from "./tileData";
+import Photo from "./Photo";
+import { makeStyles } from "@material-ui/core/styles";
+import { db } from "../config/firebase.config";
 
 export default function PhotoList({ Num }) {
-  const [state, setState] = useState({
-    tileData: initialState(Num),
-    opened: false
-  });
+  const [posts, setPosts] = useState([]);
 
-  // useEffect(() => {
-  //   setState({ tileData: initialState(Num) });
-  // }, [Num]);
-
-  const { tileData } = state;
-  const onSortEnd = ({ oldIndex, newIndex }) => {
-    setState(({ tileData }) => ({
-      tileData: arrayMove(tileData, oldIndex, newIndex)
-    }));
-  };
+  useEffect(() => {
+    db.collection("test").onSnapshot((snapshot) => {
+      setPosts(
+        snapshot.docs.map((doc) => ({
+          id: doc.id,
+          post: doc.data(),
+        }))
+      );
+    });
+    console.log("photoList");
+  }, []);
+  const useStyles = makeStyles((theme) => ({
+    root: {
+      position: "relative",
+      display: "flex",
+      flexWrap: "wrap",
+      justifyContent: "flex-start",
+      width: "100%",
+      left: "5%",
+      [theme.breakpoints.down("xs")]: {
+        left: "3%",
+      },
+    },
+  }));
+  const classes = useStyles();
 
   return (
-    <div>
-      <DraggablePhotoList tileData={tileData} axis="xy" onSortEnd={onSortEnd} />
+    <div className={classes.root}>
+      {posts.map((post, i) => (
+        <Photo
+          index={i}
+          imgURL={post.post.imgURL}
+          title={post.post.title}
+          desc={post.post.description}
+          key={post.id}
+          id={post.id}
+        />
+      ))}
     </div>
   );
 }

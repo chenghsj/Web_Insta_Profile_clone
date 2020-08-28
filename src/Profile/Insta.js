@@ -13,7 +13,6 @@ function Insta() {
   const light = useStyles();
   const dark = useDarkStyles();
   const classes = isDarkMode ? dark : light;
-
   return (
     <>
       <Switch

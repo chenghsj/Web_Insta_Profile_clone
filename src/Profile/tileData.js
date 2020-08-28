@@ -1,7 +1,7 @@
 import uuid from "uuid/v4";
 const randNum = () => Math.floor(Math.random() * 500);
 
-const geRandArray = Num => {
+const geRandArray = (Num) => {
   let randSet = new Set();
   let randArray = [];
   while (randSet.size < Num) {
@@ -11,12 +11,12 @@ const geRandArray = Num => {
   return randArray;
 };
 
-const initialState = Num => {
+const initialState = (Num) => {
   const randNumArray = geRandArray(Num);
-  return randNumArray.map(value => ({
+  return randNumArray.map((value) => ({
     img: `https://source.unsplash.com/random/300x300?${value}`,
     id: uuid(),
-    key: value
+    key: value,
   }));
 };
 
