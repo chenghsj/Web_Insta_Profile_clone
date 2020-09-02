@@ -21,6 +21,11 @@ $md: 960;
     bottom: 0 !important;
 }
 
+.swiper-pagination-bullets.dark {
+    background: white;
+    opacity: 0.6;
+}
+
 .swiper-button-prev:after {
     content: '\f104';
 }

@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 export const styles = {
   container: {
     position: "relative",
-    width: "1000px",
+    width: "80vw",
     height: "80vh",
     background: "#FAFAFA",
     boxShadow: "10px 10px 20px rgba(0, 0, 0, 0.7)",
@@ -33,8 +33,8 @@ export const styles = {
   },
   themeToggle: {
     top: "0",
-    transform: "scale(0.9)",
-    left: "5%",
+    transform: "scale(0.8)",
+    left: "4vw",
   },
   toggle: {
     position: "absolute",

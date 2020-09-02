@@ -34,14 +34,14 @@ export default function PhotoList({ Num }) {
 
   return (
     <div className={classes.root}>
-      {posts.map((post, i) => (
+      {posts.map(({ post, id }, i) => (
         <Photo
           index={i}
-          imgURL={post.post.imgURL}
-          title={post.post.title}
-          desc={post.post.description}
-          key={post.id}
-          id={post.id}
+          imgURL={post.imgURL}
+          title={post.title}
+          desc={post.description}
+          key={id}
+          id={id}
         />
       ))}
     </div>

@@ -110,7 +110,6 @@ export const styles = {
   },
   lightBoxTitle: {
     margin: "1rem",
-    fontWeight: "bold",
   },
   lightBoxDesc: {
     margin: "1rem",

@@ -62,7 +62,7 @@ const Photo = (props) => {
       >
         <div className={classes.lightBoxContainer}>
           <Carousel imgList={imgList} />
-          <p className={classes.lightBoxTitle}>{props.title}</p>
+          <h3 className={classes.lightBoxTitle}>{props.title}</h3>
           <p className={classes.lightBoxDesc}>{props.desc}</p>
         </div>
       </div>
