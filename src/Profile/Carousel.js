@@ -20,7 +20,7 @@ export default function Carousel(props) {
         <SwiperSlide key={`slide-${i}`}>
           <img
             style={{ width: "100%", height: "95%", objectFit: "contain" }}
-            src={`${img.imgURL}`}
+            src={img}
             alt={`Slide ${i}`}
           />
         </SwiperSlide>

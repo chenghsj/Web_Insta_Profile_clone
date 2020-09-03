@@ -7,14 +7,16 @@ export default function PhotoList({ Num }) {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    db.collection("test").onSnapshot((snapshot) => {
-      setPosts(
-        snapshot.docs.map((doc) => ({
-          id: doc.id,
-          post: doc.data(),
-        }))
-      );
-    });
+    db.collection("cheng")
+      .orderBy("timestamp", "desc")
+      .onSnapshot((snapshot) => {
+        setPosts(
+          snapshot.docs.map((doc) => ({
+            id: doc.id,
+            post: doc.data(),
+          }))
+        );
+      });
     console.log("photoList");
   }, []);
   const useStyles = makeStyles((theme) => ({
@@ -37,7 +39,8 @@ export default function PhotoList({ Num }) {
       {posts.map(({ post, id }, i) => (
         <Photo
           index={i}
-          imgURL={post.imgURL}
+          coverImage={post.coverImage}
+          images={post.images}
           title={post.title}
           desc={post.description}
           key={id}

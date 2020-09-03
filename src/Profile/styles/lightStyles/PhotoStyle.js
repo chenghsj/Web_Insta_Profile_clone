@@ -26,7 +26,6 @@ export const styles = {
     position: "absolute",
     right: 0,
     margin: "0.5rem",
-    color: "black",
     opacity: 0.5,
   },
   mask: {

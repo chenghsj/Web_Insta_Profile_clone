@@ -22,7 +22,6 @@ export default function ImageUpload(props) {
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
   const [images, setImages] = useState([]);
-  const [imagesURL, setImagesURL] = useState([]);
   const [progress, setProgress] = useState(null);
 
   const handleImages = (e) => {
@@ -50,82 +49,43 @@ export default function ImageUpload(props) {
           // eslint-disable-next-line default-case
           switch (snapshot.state) {
             case firebase.storage.TaskState.PAUSED: // or 'paused'
-              console.log("Upload is paused");
+              console.log("Upload paused");
               break;
             case firebase.storage.TaskState.RUNNING: // or 'running'
-              console.log("Upload is running");
+              console.log("Uploading...");
               break;
           }
         },
-        (error) => console.log(error.message),
-        () => {
-          storage
-            .ref("images")
-            .child(props.username)
-            .child(image.name)
-            .child(title)
-            .getDownloadURL()
-            .then((url) => {
-              setImagesURL((prev) => [...prev, url]);
-            });
-        }
+        (error) => console.log(error.message)
       );
     }
     Promise.all(promises)
-      .then(() => {
-        console.log("all files uploaded");
-        setProgress(null);
-        setTitle("");
-        setImages(null);
-        handleModalClose();
+      .then(async (res) => {
+        const promises = [];
+        for (let i = 0; i < res.length; i++) {
+          const imageURL = await res[i].ref.getDownloadURL();
+          promises.push(imageURL);
+        }
+        const imagesURL = await Promise.all(promises);
+        await db.collection(`${props.username}`).add({
+          timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+          username: props.username,
+          title: title,
+          description: desc,
+          coverImage: imagesURL[0],
+          images: imagesURL,
+        });
       })
       .then(() => {
-        console.log(imagesURL);
+        console.log("Upload finished");
+        setTitle("");
+        setDesc("");
+        setImages([]);
+        setProgress(null);
+        handleModalClose(false);
       })
       .catch((error) => console.log(error.message));
   };
-  // const handleUpload = (e) => {
-  //     const uploadTask = storage
-  //       .ref(`images/${props.username}/${image.name}`)
-  //       .put(image);
-  //     uploadTask.on(
-  //       "state_changed",
-  //       (snapshot) => {
-  //         //progress function ...
-  //         const progress = Math.round(
-  //           (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-  //         );
-  //         setProgress(progress);
-  //       },
-  //       (error) => {
-  //         //error function ...
-  //         console.log(error);
-  //         alert(error.message);
-  //       },
-  //       () => {
-  //         //complete function ...
-  //         storage
-  //           .ref("images")
-  //           .child(props.username)
-  //           .child(image.name)
-  //           .getDownloadURL()
-  //           .then((url) => {
-  //             //post image inside db
-  //             db.collection("posts").add({
-  //               timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-  //               username: props.username,
-  //               title: title,
-  //               description: desc,
-  //               imgURL: url,
-  //             });
-  //             setProgress(0);
-  //             setTitle("");
-  //             setImage(null);
-  //             handleModalClose();
-  //           });
-  //       }
-  //     );
-  // };
 
   const handleModalClose = () => {
     props.setOpenUpload(false);
@@ -139,12 +99,13 @@ export default function ImageUpload(props) {
       >
         Upload
       </button>
-      <Modal open={props.openUpload} onClose={handleModalClose}>
+      <Modal open={props.openUpload} onClose={!progress && handleModalClose}>
         <div style={modalStyle} className={classes.paper}>
           <form>
             <Grid container direction="column" spacing={2}>
               <Grid item>
                 <TextField
+                  disabled={progress ? true : false}
                   fullWidth
                   required
                   type="text"
@@ -156,6 +117,7 @@ export default function ImageUpload(props) {
               </Grid>
               <Grid item>
                 <TextField
+                  disabled={progress ? true : false}
                   fullWidth
                   type="text"
                   id="description-required"
@@ -166,6 +128,7 @@ export default function ImageUpload(props) {
               </Grid>
               <Grid item>
                 <TextField
+                  disabled={progress ? true : false}
                   classes={{ marginDense: classes.fileInput }}
                   variant="outlined"
                   size="small"
@@ -190,6 +153,7 @@ export default function ImageUpload(props) {
                       root: classes.progressBar,
                       colorPrimary: classes.colorPrimary,
                       barColorPrimary: classes.barColorPrimary,
+                      bar1Determinate: classes.bar1Determinate,
                     }}
                     variant="determinate"
                     value={progress}
@@ -198,6 +162,7 @@ export default function ImageUpload(props) {
               ) : null}
               <Grid item>
                 <Button
+                  disabled={progress ? true : false}
                   classes={{ root: classes.btnText }}
                   fullWidth
                   color={title && images[0] ? "primary" : "default"}
@@ -207,7 +172,7 @@ export default function ImageUpload(props) {
                     if (title && images[0]) handleUpload(e);
                   }}
                 >
-                  Upload
+                  {progress ? "Uploading..." : "Upload"}
                 </Button>
               </Grid>
             </Grid>
@@ -275,6 +240,9 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#e0e0e0",
   },
   barColorPrimary: {
-    backgroundColor: "#6573c3",
+    backgroundColor: theme.palette.primary,
+  },
+  bar1Determinate: {
+    borderRadius: "0.4rem",
   },
 }));
