@@ -4,19 +4,12 @@ import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import LinearProgress from "@material-ui/core/LinearProgress";
-import { useStyles } from "./styles/lightStyles/ImageUploadStyle";
+import { getModalStyle } from "./styles/reuseableStyle";
+import { useStyles } from "./styles/ImageUploadStyle";
 import { storage, db } from "../config/firebase.config";
 import { ThemeContext } from "./contexts/Theme.context";
 import { AuthContext } from "./contexts/Auth.context";
 import firebase from "firebase";
-
-function getModalStyle() {
-  return {
-    top: `50%`,
-    left: `50%`,
-    transform: `translate(-50%, -50%)`,
-  };
-}
 
 export default function ImageUpload(props) {
   const { isDarkMode } = useContext(ThemeContext);
@@ -181,8 +174,7 @@ export default function ImageUpload(props) {
               )}
               <Grid item>
                 <Button
-                  disabled={!!progress || !!!title || !!!images[0]}
-                  classes={{ root: classes.btnText }}
+                  disabled={progress || !title || !images[0]}
                   fullWidth
                   color={!!!progress ? "primary" : "default"}
                   variant="contained"

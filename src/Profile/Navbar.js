@@ -5,17 +5,14 @@ import Paper from "@material-ui/core/Paper";
 import GitHubIcon from "@material-ui/icons/GitHub";
 import EmailIcon from "@material-ui/icons/Email";
 import FacebookIcon from "@material-ui/icons/Facebook";
-import { useStyles } from "./styles/lightStyles/NavbarStyle";
-import { useDarkStyles } from "./styles/darkStyles/darkNavbarStyle";
+import { useStyles } from "./styles/NavbarStyle";
 import { ThemeContext } from "../Profile/contexts/Theme.context";
 import SignModal from "./SignModal";
 // import classes from "./Nav.module.css";
 
 function Navbar() {
   const { isDarkMode } = useContext(ThemeContext);
-  const light = useStyles();
-  const dark = useDarkStyles();
-  const classes = isDarkMode ? dark : light;
+  const classes = useStyles(isDarkMode);
 
   return (
     <Paper className={classes.container}>

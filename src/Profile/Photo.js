@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext, useRef } from "react";
-import { useStyles } from "./styles/lightStyles/PhotoStyle";
-import { useDarkStyles } from "./styles/darkStyles/darkPhotoStyle";
+import { useStyles } from "./styles/PhotoStyle";
 import { ThemeContext } from "../Profile/contexts/Theme.context";
 import { useColor } from "color-thief-react";
 import FilterNoneIcon from "@material-ui/icons/FilterNone";
@@ -13,9 +12,7 @@ const Photo = (props) => {
     crossOrigin: "anonymous",
   });
   const { isDarkMode } = useContext(ThemeContext);
-  const light = useStyles();
-  const dark = useDarkStyles();
-  const classes = isDarkMode ? dark : light;
+  const classes = useStyles(isDarkMode);
 
   const setColorContrast = (color) => {
     if (color) {

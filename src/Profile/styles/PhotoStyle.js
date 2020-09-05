@@ -1,6 +1,6 @@
 import { makeStyles } from "@material-ui/core/styles";
 
-export const styles = {
+export const useStyles = makeStyles((theme) => ({
   root: {
     position: "relative",
     width: "29%",
@@ -18,8 +18,8 @@ export const styles = {
     "&:hover": {
       transform: "scale(0.95)",
     },
-    themeBreakpoints: {
-      xs: { width: "44%" },
+    [theme.breakpoints.down("xs")]: {
+      width: "44%",
     },
   },
   filterNoneIcon: {
@@ -69,12 +69,13 @@ export const styles = {
       zIndex: 100,
     },
   },
+  active: {},
   lightBoxContainer: {
     display: "inline-block",
     position: "relative",
     width: "40%",
     height: "85%",
-    backgroundColor: "white",
+    backgroundColor: (isDark) => (isDark ? "#393939" : "white"),
     borderRadius: "5px",
     color: "black",
     overflowY: "auto",
@@ -82,18 +83,25 @@ export const styles = {
       width: "10px",
     },
     "&::-webkit-scrollbar-thumb": {
-      background: "linear-gradient(180deg, #36d1dc 0%,#5b86e5 100% )",
+      background: (isDark) =>
+        isDark
+          ? "linear-gradient(0deg, #ee0979 0%,#ff6a00 100% )"
+          : "linear-gradient(180deg, #36d1dc 0%,#5b86e5 100% )",
       borderRadius: "0px 5px 5px 0px",
       margin: "5px",
     },
     "&::-webkit-scrollbar-track": {
-      borderLeft: "1px solid #d6d6d7",
+      borderLeft: (isDark) => `1px solid ${isDark ? "#2a2a2a" : "#d6d6d7"}`,
       borderRadius: "0px 5px 5px 0px",
     },
-    themeBreakpoints: {
-      md: { width: "50%" },
-      sm: { width: "60%" },
-      xs: { width: "70%" },
+    [theme.breakpoints.down("md")]: {
+      width: "50%",
+    },
+    [theme.breakpoints.down("sm")]: {
+      width: "60%",
+    },
+    [theme.breakpoints.down("xs")]: {
+      width: "70%",
     },
   },
   lightBoxImg: {
@@ -112,45 +120,5 @@ export const styles = {
   },
   lightBoxDesc: {
     margin: "1rem",
-  },
-};
-
-export const useStyles = makeStyles((theme) => ({
-  root: {
-    ...styles.root,
-    [theme.breakpoints.down("xs")]: {
-      ...styles.root.themeBreakpoints.xs,
-    },
-  },
-  filterNoneIcon: {
-    ...styles.filterNoneIcon,
-  },
-  mask: {
-    ...styles.mask,
-  },
-  lightBox: {
-    ...styles.lightBox,
-  },
-  active: {},
-  lightBoxContainer: {
-    ...styles.lightBoxContainer,
-    [theme.breakpoints.down("md")]: {
-      ...styles.lightBoxContainer.themeBreakpoints.md,
-    },
-    [theme.breakpoints.down("sm")]: {
-      ...styles.lightBoxContainer.themeBreakpoints.sm,
-    },
-    [theme.breakpoints.down("xs")]: {
-      ...styles.lightBoxContainer.themeBreakpoints.xs,
-    },
-  },
-  lightBoxImg: {
-    ...styles.lightBoxImg,
-  },
-  lightBoxTitle: {
-    ...styles.lightBoxTitle,
-  },
-  lightBoxDesc: {
-    ...styles.lightBoxDesc,
   },
 }));
