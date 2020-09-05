@@ -48,12 +48,13 @@ export const styles = {
     justifyContent: "center",
     alignItems: "center",
   },
-  avatar: {
-    width: "90%",
-    height: "90%",
+  avatarRoot: {
     border: "1px solid #71716f",
   },
   info: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-around",
     position: "relative",
     width: "50%",
     marginLeft: "-10%",
@@ -81,6 +82,45 @@ export const styles = {
       transform: "rotate(360deg)",
     },
   },
+  profileIcon: {
+    borderRadius: "20%",
+    margin: "0.2rem",
+    border: "1px solid black",
+  },
+  editIcon: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  nameInputRoot: {
+    width: "80%",
+    fontSize: "1.5rem",
+    color: "gray",
+  },
+  infoInputRoot: {
+    fontSize: "1rem",
+    color: "gray",
+  },
+  inputMultiline: {
+    padding: "10px 0 2px",
+  },
+  fileInput: {
+    paddingBottom: "18.5px",
+  },
+  paper: {
+    outline: "none",
+    borderRadius: "10px",
+    display: "flex",
+    flexDirection: "column",
+    position: "absolute",
+    width: "30%",
+    'theme.breakpoints.down("xs")': { width: "50%" },
+    backgroundColor: (theme) => theme.palette.background.paper,
+    boxShadow: (theme) => theme.shadows[5],
+    padding: (theme) => theme.spacing(2, 4, 3),
+    opacity: 1,
+    visibility: "visible",
+  },
 };
 
 export const useStyles = makeStyles((theme) => ({
@@ -102,10 +142,9 @@ export const useStyles = makeStyles((theme) => ({
   innerCircle: {
     ...styles.innerCircle,
   },
-  avatar: {
-    ...styles.avatar,
+  avatarRoot: {
+    ...styles.avatarRoot,
   },
-
   info: {
     ...styles.info,
     [theme.breakpoints.down("xs")]: {
@@ -114,5 +153,30 @@ export const useStyles = makeStyles((theme) => ({
   },
   "@keyframes rotate": {
     ...styles["@keyframes rotate"],
+  },
+  profileIcon: {
+    ...styles.profileIcon,
+  },
+  editIcon: {
+    ...styles.editIcon,
+  },
+  nameInputRoot: {
+    ...styles.NameInputRoot,
+  },
+  infoInputRoot: {
+    ...styles.infoInputRoot,
+  },
+  inputMultiline: {
+    ...styles.inputMultiline,
+  },
+  fileInput: { ...styles.fileInput },
+  paper: {
+    ...styles.paper,
+    [theme.breakpoints.down("xs")]: {
+      ...styles.paper[theme.breakpoints.down("xs")],
+    },
+    backgroundColor: styles.paper.backgroundColor(theme),
+    boxShadow: styles.paper.boxShadow(theme),
+    padding: styles.paper.padding(theme),
   },
 }));

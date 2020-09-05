@@ -16,8 +16,11 @@ export const styles = {
     width: "calc(100%-5px)",
     height: "6%",
     borderRadius: 0,
-    padding: "10px 20px 10px 20px",
+    padding: "10px 20px",
     zIndex: 20,
+    'theme.breakpoints.down("xs")': {
+      padding: "10px",
+    },
   },
   icon: {
     fontSize: "1.5rem",
@@ -43,17 +46,35 @@ export const styles = {
     fontSize: "1.5rem",
     cursor: "pointer",
   },
-  self: {
+  iconContainer: {
     display: "flex",
     justifyContent: "flex-end",
     alignItems: "center",
     width: "33%",
     "& a": {
       marginRight: "10px",
+      'theme.breakpoints.down("xs")': {
+        marginRight: "7px",
+      },
     },
   },
 };
 
 export const useStyles = makeStyles((theme) => ({
   ...styles,
+  container: {
+    ...styles.container,
+    [theme.breakpoints.down("xs")]: {
+      ...styles.container['theme.breakpoints.down("xs")'],
+    },
+  },
+  iconContainer: {
+    ...styles.iconContainer,
+    "& a": {
+      ...styles.iconContainer["& a"],
+      [theme.breakpoints.down("xs")]: {
+        ...styles.iconContainer["& a"]['theme.breakpoints.down("xs")'],
+      },
+    },
+  },
 }));

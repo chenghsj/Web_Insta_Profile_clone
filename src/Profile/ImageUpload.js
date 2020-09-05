@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Modal from "@material-ui/core/Modal";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import LinearProgress from "@material-ui/core/LinearProgress";
-import { makeStyles } from "@material-ui/core/styles";
+import { useStyles } from "./styles/lightStyles/ImageUploadStyle";
 import { storage, db } from "../config/firebase.config";
+import { ThemeContext } from "./contexts/Theme.context";
+import { AuthContext } from "./contexts/Auth.context";
 import firebase from "firebase";
 
 function getModalStyle() {
@@ -17,6 +19,8 @@ function getModalStyle() {
 }
 
 export default function ImageUpload(props) {
+  const { isDarkMode } = useContext(ThemeContext);
+  const { isAuth } = useContext(AuthContext);
   const [modalStyle] = useState(getModalStyle);
   const classes = useStyles();
   const [title, setTitle] = useState("");
@@ -36,7 +40,7 @@ export default function ImageUpload(props) {
     const promises = [];
     for (let image of images) {
       const uploadTask = storage
-        .ref(`images/${props.username}/${title}/${image.name}`)
+        .ref(`images/${isAuth.displayName}/${title}/${image.name}`)
         .put(image);
       promises.push(uploadTask);
       uploadTask.on(
@@ -67,27 +71,32 @@ export default function ImageUpload(props) {
           promises.push(imageURL);
         }
         const imagesURL = await Promise.all(promises);
-        await db.collection(`${props.username}`).add({
-          timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-          username: props.username,
-          title: title,
-          description: desc,
-          coverImage: imagesURL[0],
-          images: imagesURL,
-        });
+        await db
+          .collection(isAuth.displayName)
+          .doc(isAuth.uid)
+          .collection("posts")
+          .doc()
+          .set({
+            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+            username: isAuth.displayName,
+            title: title,
+            description: desc,
+            coverImage: imagesURL[0],
+            images: imagesURL,
+          });
       })
       .then(() => {
         console.log("Upload finished");
-        setTitle("");
-        setDesc("");
-        setImages([]);
-        setProgress(null);
-        handleModalClose(false);
+        handleModalClose();
       })
       .catch((error) => console.log(error.message));
   };
 
   const handleModalClose = () => {
+    setTitle("");
+    setDesc("");
+    setImages([]);
+    setProgress(null);
     props.setOpenUpload(false);
   };
 
@@ -96,10 +105,22 @@ export default function ImageUpload(props) {
       <button
         onClick={() => props.setOpenUpload(true)}
         className={classes.button}
+        style={{
+          background: isDarkMode && "white",
+          color: isDarkMode && "black",
+        }}
       >
         Upload
       </button>
-      <Modal open={props.openUpload} onClose={!progress && handleModalClose}>
+      <Modal
+        style={{ cursor: !!progress && "progress" }}
+        open={props.openUpload}
+        onClose={() => {
+          if (!progress) {
+            handleModalClose();
+          }
+        }}
+      >
         <div style={modalStyle} className={classes.paper}>
           <form>
             <Grid container direction="column" spacing={2}>
@@ -117,7 +138,7 @@ export default function ImageUpload(props) {
               </Grid>
               <Grid item>
                 <TextField
-                  disabled={progress ? true : false}
+                  disabled={!!progress}
                   fullWidth
                   type="text"
                   id="description-required"
@@ -128,8 +149,7 @@ export default function ImageUpload(props) {
               </Grid>
               <Grid item>
                 <TextField
-                  disabled={progress ? true : false}
-                  classes={{ marginDense: classes.fileInput }}
+                  disabled={!!progress}
                   variant="outlined"
                   size="small"
                   fullWidth
@@ -140,13 +160,12 @@ export default function ImageUpload(props) {
                     multiple: true,
                   }}
                   InputProps={{
-                    disableUnderline: true,
                     classes: { inputMarginDense: classes.fileInput },
                   }}
                   onChange={handleImages}
                 />
               </Grid>
-              {progress ? (
+              {!!progress && (
                 <Grid item>
                   <LinearProgress
                     classes={{
@@ -159,13 +178,13 @@ export default function ImageUpload(props) {
                     value={progress}
                   />
                 </Grid>
-              ) : null}
+              )}
               <Grid item>
                 <Button
-                  disabled={progress ? true : false}
+                  disabled={!!progress || !!!title || !!!images[0]}
                   classes={{ root: classes.btnText }}
                   fullWidth
-                  color={title && images[0] ? "primary" : "default"}
+                  color={!!!progress ? "primary" : "default"}
                   variant="contained"
                   disableElevation
                   onClick={(e) => {
@@ -182,67 +201,3 @@ export default function ImageUpload(props) {
     </div>
   );
 }
-
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    outline: "none",
-    borderRadius: "10px",
-    display: "flex",
-    flexDirection: "column",
-    position: "absolute",
-    width: "30%",
-    [theme.breakpoints.down("xs")]: { width: "50%" },
-    backgroundColor: theme.palette.background.paper,
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
-    opacity: 1,
-    visibility: "visible",
-  },
-  button: {
-    background: "white",
-    color: "black",
-    height: "100%",
-    // background: "#393939",
-    // color: "white",
-    borderRadius: "5px",
-    border: "none",
-    outline: "none",
-    padding: "0.2rem 0.5rem",
-    cursor: "pointer",
-    boxShadow: "1px 1px 5px -2px",
-    // boxShadow: "1px 1px 8px -2px black",
-    marginLeft: "0.5rem",
-    transition: "background 0.2s ease",
-    [theme.breakpoints.down("xs")]: {
-      transform: "scale(0.85)",
-      marginLeft: "0rem",
-    },
-    "&:hover": {
-      background: "lightgray",
-    },
-    "&:active": {
-      boxShadow: "none",
-      top: "calc(6vh + 1px)",
-      right: "calc(11vw - 1px)",
-    },
-  },
-  btnText: {
-    textTransform: "none",
-  },
-  fileInput: {
-    paddingBottom: "18.5px",
-  },
-  progressBar: {
-    height: "0.4rem",
-    borderRadius: "0.4rem",
-  },
-  colorPrimary: {
-    backgroundColor: "#e0e0e0",
-  },
-  barColorPrimary: {
-    backgroundColor: theme.palette.primary,
-  },
-  bar1Determinate: {
-    borderRadius: "0.4rem",
-  },
-}));

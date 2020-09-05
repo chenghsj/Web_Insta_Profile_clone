@@ -6,8 +6,9 @@ import GitHubIcon from "@material-ui/icons/GitHub";
 import EmailIcon from "@material-ui/icons/Email";
 import FacebookIcon from "@material-ui/icons/Facebook";
 import { useStyles } from "./styles/lightStyles/NavbarStyle";
-import { useDarkStyles } from "./styles/darkStyles/DarkNavbarStyle";
+import { useDarkStyles } from "./styles/darkStyles/darkNavbarStyle";
 import { ThemeContext } from "../Profile/contexts/Theme.context";
+import SignModal from "./SignModal";
 // import classes from "./Nav.module.css";
 
 function Navbar() {
@@ -23,31 +24,44 @@ function Navbar() {
         <Divider orientation="vertical" className={classes.divider} />
         <h3 className={classes.title}>Cheng</h3>
       </div>
-      <div className={classes.self}>
-        <a
-          href="https://www.facebook.com/"
-          target="_blank"
-          rel="noopener noreferrer"
+      <div className={classes.iconContainer}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            position: "relative",
+            top: "2px",
+          }}
         >
-          <FacebookIcon
+          <a
+            href="https://www.facebook.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <FacebookIcon
+              className={classes.icon}
+              style={{ fontSize: "1.75rem" }}
+            />
+          </a>
+          <a
+            href="https://github.com/chenghsj"
             className={classes.icon}
-            style={{ fontSize: "1.75rem" }}
-          />
-        </a>
-        <a
-          href="https://github.com/chenghsj"
-          className={classes.icon}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <GitHubIcon
-            className={classes.icon}
-            style={{ fontSize: "1.45rem" }}
-          />
-        </a>
-        <a href="mailto:chengjohnsonhs@gmail.com">
-          <EmailIcon className={classes.icon} />
-        </a>
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <GitHubIcon
+              className={classes.icon}
+              style={{ fontSize: "1.45rem" }}
+            />
+          </a>
+          <a href="mailto:chengjohnsonhs@gmail.com">
+            <EmailIcon
+              className={classes.icon}
+              style={{ fontSize: "1.65rem" }}
+            />
+          </a>
+        </div>
+        <SignModal />
       </div>
     </Paper>
   );

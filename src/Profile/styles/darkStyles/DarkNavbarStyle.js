@@ -5,6 +5,9 @@ export const useDarkStyles = makeStyles((theme) => ({
   container: {
     ...styles.container,
     backgroundColor: "#2a2a2a",
+    [theme.breakpoints.down("xs")]: {
+      ...styles.container['theme.breakpoints.down("xs")'],
+    },
   },
   icon: {
     ...styles.icon,
@@ -24,7 +27,13 @@ export const useDarkStyles = makeStyles((theme) => ({
     cursor: "pointer",
     color: "white",
   },
-  self: {
-    ...styles.self,
+  iconContainer: {
+    ...styles.iconContainer,
+    "& a": {
+      ...styles.iconContainer["& a"],
+      [theme.breakpoints.down("xs")]: {
+        ...styles.iconContainer["& a"]['theme.breakpoints.down("xs")'],
+      },
+    },
   },
 }));

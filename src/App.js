@@ -3,15 +3,18 @@ import Insta from "./Profile/Insta";
 import "./App.scss";
 import PageBackground from "./Profile/PageBackground";
 import { ThemeProvider } from "./Profile/contexts/Theme.context";
+import { AuthProvider } from "./Profile/contexts/Auth.context";
 
 function App() {
   return (
-    <ThemeProvider>
-      <div className="App">
-        <PageBackground></PageBackground>
-        <Insta />
-      </div>
-    </ThemeProvider>
+    <AuthProvider>
+      <ThemeProvider>
+        <div className="App">
+          <PageBackground></PageBackground>
+          <Insta />
+        </div>
+      </ThemeProvider>
+    </AuthProvider>
   );
 }
 

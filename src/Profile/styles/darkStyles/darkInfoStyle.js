@@ -24,11 +24,10 @@ export const useDarkStyles = makeStyles((theme) => ({
     ...styles.innerCircle,
     backgroundColor: backgroundColor,
   },
-  avatar: {
-    ...styles.avatar,
+  avatarRoot: {
+    ...styles.avatarRoot,
     border: "1px solid #d3d3d3",
   },
-
   info: {
     ...styles.info,
     color: fontColor,
@@ -38,5 +37,35 @@ export const useDarkStyles = makeStyles((theme) => ({
   },
   "@keyframes rotate": {
     ...styles["@keyframes rotate"],
+  },
+  profileIcon: {
+    ...styles.profileIcon,
+    border: "1px solid white",
+    color: "white",
+  },
+  editIcon: {
+    ...styles.editIcon,
+  },
+  nameInputRoot: {
+    ...styles.nameInputRoot,
+    color: "white",
+  },
+  infoInputRoot: {
+    ...styles.infoInputRoot,
+    color: "white",
+  },
+  inputMultiline: {
+    ...styles.inputMultiline,
+    color: "white",
+  },
+  fileInput: { ...styles.fileInput },
+  paper: {
+    ...styles.paper,
+    [theme.breakpoints.down("xs")]: {
+      ...styles.paper[theme.breakpoints.down("xs")],
+    },
+    backgroundColor: styles.paper.backgroundColor(theme),
+    boxShadow: styles.paper.boxShadow(theme),
+    padding: styles.paper.padding(theme),
   },
 }));

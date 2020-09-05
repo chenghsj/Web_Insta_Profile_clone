@@ -3,14 +3,12 @@ import { useStyles } from "./styles/lightStyles/PhotoStyle";
 import { useDarkStyles } from "./styles/darkStyles/darkPhotoStyle";
 import { ThemeContext } from "../Profile/contexts/Theme.context";
 import { useColor } from "color-thief-react";
-import Color from "color-thief-react";
 import FilterNoneIcon from "@material-ui/icons/FilterNone";
 import Carousel from "./Carousel";
 
 const Photo = (props) => {
   const [open, setOpen] = useState(false);
   const iconColor = useRef("");
-  // const [iconColor, setIconColor] = useState("");
   const { data } = useColor(props.coverImage, "rgbArray", {
     crossOrigin: "anonymous",
   });

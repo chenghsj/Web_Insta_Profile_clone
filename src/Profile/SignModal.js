@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { useStyles } from "./styles/lightStyles/SignModalStyle";
+import { useDarkStyles } from "./styles/darkStyles/darkSignModalStyle";
+import { ThemeContext } from "./contexts/Theme.context";
+import { auth } from "../config/firebase.config";
 import Modal from "@material-ui/core/Modal";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
-import { auth } from "../config/firebase.config";
-import { useStyles } from "./styles/lightStyles/signStyle";
 import ImageUpload from "./ImageUpload";
 
 function getModalStyle() {
@@ -16,6 +18,10 @@ function getModalStyle() {
 }
 
 export default function SimpleModal() {
+  const { isDarkMode } = useContext(ThemeContext);
+  const light = useStyles();
+  const dark = useDarkStyles();
+  const classes = isDarkMode ? dark : light;
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = useState(getModalStyle);
   const [openSignUp, setOpenSignUp] = useState(false);
@@ -25,8 +31,6 @@ export default function SimpleModal() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
-
-  const classes = useStyles();
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((authUser) => {
@@ -66,7 +70,7 @@ export default function SimpleModal() {
     <div style={modalStyle} className={classes.paper}>
       <form>
         <Grid container direction="column" spacing={2}>
-          {openSignUp ? (
+          {openSignUp && (
             <Grid item>
               <TextField
                 fullWidth
@@ -76,7 +80,7 @@ export default function SimpleModal() {
                 onChange={(e) => setUsername(e.target.value)}
               />
             </Grid>
-          ) : null}
+          )}
           <Grid item>
             <TextField
               fullWidth
@@ -122,12 +126,14 @@ export default function SimpleModal() {
         {user?.displayName ? (
           <ImageUpload
             username={user.displayName}
+            udi={user.uid}
             openUpload={openUpload}
             setOpenUpload={setOpenUpload}
           />
         ) : (
           <button
             className={classes.button}
+            style={{ marginRight: "0.5rem" }}
             type="button"
             onClick={(e) => {
               e.preventDefault();

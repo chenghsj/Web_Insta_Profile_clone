@@ -1,23 +1,33 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Photo from "./Photo";
 import { makeStyles } from "@material-ui/core/styles";
-import { db } from "../config/firebase.config";
+import { db, auth } from "../config/firebase.config";
+import { AuthContext } from "./contexts/Auth.context";
 
-export default function PhotoList({ Num }) {
+export default function PhotoList() {
   const [posts, setPosts] = useState([]);
+  const { isAuth } = useContext(AuthContext);
 
   useEffect(() => {
-    db.collection("cheng")
-      .orderBy("timestamp", "desc")
-      .onSnapshot((snapshot) => {
-        setPosts(
-          snapshot.docs.map((doc) => ({
-            id: doc.id,
-            post: doc.data(),
-          }))
-        );
-      });
-    console.log("photoList");
+    auth.onAuthStateChanged((authUser) => {
+      if (authUser) {
+        db.collection(authUser.displayName)
+          .doc(authUser.uid)
+          .collection("posts")
+          .orderBy("timestamp", "desc")
+          .onSnapshot((snapshot) => {
+            setPosts(
+              snapshot.docs.map((doc) => ({
+                id: doc.id,
+                post: doc.data(),
+              }))
+            );
+            console.log(snapshot.docs);
+          });
+      }
+      return;
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const useStyles = makeStyles((theme) => ({
     root: {
@@ -36,17 +46,18 @@ export default function PhotoList({ Num }) {
 
   return (
     <div className={classes.root}>
-      {posts.map(({ post, id }, i) => (
-        <Photo
-          index={i}
-          coverImage={post.coverImage}
-          images={post.images}
-          title={post.title}
-          desc={post.description}
-          key={id}
-          id={id}
-        />
-      ))}
+      {isAuth &&
+        posts.map(({ post, id }, i) => (
+          <Photo
+            index={i}
+            coverImage={post.coverImage}
+            images={post.images}
+            title={post.title}
+            desc={post.description}
+            key={id}
+            id={id}
+          />
+        ))}
     </div>
   );
 }

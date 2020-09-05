@@ -7,17 +7,17 @@ import Switch from "@material-ui/core/Switch";
 import { useStyles } from "./styles/lightStyles/InstaStyle";
 import { useDarkStyles } from "./styles/darkStyles/darkInstaStyle";
 import { ThemeContext } from "./contexts/Theme.context";
-import SignModal from "./SignModal";
+// import { AuthContext } from "./contexts/Auth.context";
 
 function Insta() {
   const { isDarkMode, toggleTheme } = useContext(ThemeContext);
+  // const { isAuth } = useContext(AuthContext);
   const light = useStyles();
   const dark = useDarkStyles();
   const classes = isDarkMode ? dark : light;
 
   return (
     <>
-      <SignModal />
       <Switch
         onChange={toggleTheme}
         color="default"
@@ -26,9 +26,13 @@ function Insta() {
       />
       <div className={classes.container}>
         <Navbar />
+        {/* {isAuth ? (
+          <> */}
         <Info />
         <Divider className={classes.divider} />
         <PhotoList Num={18} />
+        {/* </>
+        ) : null} */}
       </div>
     </>
   );
