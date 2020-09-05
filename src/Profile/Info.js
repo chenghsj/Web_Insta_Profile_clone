@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import Avatar from "@material-ui/core/Avatar";
-import { useStyles } from "./styles/lightStyles/InfoStyle";
-import { useDarkStyles } from "./styles/darkStyles/darkInfoStyle";
+import { useStyles } from "./styles/InfoStyle";
 import { ThemeContext } from "./contexts/Theme.context";
 import { AuthContext } from "./contexts/Auth.context";
 import Input from "@material-ui/core/Input";
@@ -25,11 +24,9 @@ function getModalStyle() {
 
 function Head() {
   const { isDarkMode } = useContext(ThemeContext);
+  const classes = useStyles(isDarkMode);
   const { isAuth } = useContext(AuthContext);
   const [modalStyle] = React.useState(getModalStyle);
-  const light = useStyles();
-  const dark = useDarkStyles();
-  const classes = isDarkMode ? dark : light;
   const [isSubmit, setIsSubmit] = useState(false);
   const [edit, setEdit] = useState(false);
   const [avatar, setAvatar] = useState(null);
@@ -242,8 +239,10 @@ function Head() {
               }}
             >
               <Input
-                classes={{ root: classes.nameInputRoot }}
-                fullWidth
+                classes={{
+                  root: classes.nameInputRoot,
+                  underline: classes.inputUnderline,
+                }}
                 name="profile_name"
                 inputProps={{ "aria-label": "profile name" }}
                 value={profile_name}
@@ -272,6 +271,7 @@ function Head() {
               classes={{
                 root: classes.infoInputRoot,
                 multiline: classes.inputMultiline,
+                underline: classes.inputUnderline,
               }}
               fullWidth
               multiline
@@ -291,7 +291,10 @@ function Head() {
         {edit ? (
           <div style={{ display: "flex", flexDirection: "row" }}>
             <Input
-              classes={{ multiline: classes.inputMultiline }}
+              classes={{
+                multiline: classes.inputMultiline,
+                underline: classes.inputUnderline,
+              }}
               fullWidth
               multiline
               name="profile_description"

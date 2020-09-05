@@ -1,15 +1,13 @@
 import { makeStyles } from "@material-ui/core/styles";
 
-const displayFlex = {
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-};
+const displayFlex = {};
 
-export const styles = {
+export const useStyles = makeStyles((theme) => ({
   container: {
-    ...displayFlex,
+    display: "flex",
+    alignItems: "center",
     justifyContent: "space-between",
+    backgroundColor: (isDark) => isDark && "#2a2a2a",
     position: "sticky",
     top: 0,
     left: 0,
@@ -25,12 +23,13 @@ export const styles = {
   icon: {
     fontSize: "1.5rem",
     cursor: "pointer",
-    color: "black",
+    color: (isDark) => (isDark ? "white" : "black"),
   },
   Brand: {
     display: "flex",
     alignItems: "center",
     width: "33%",
+    color: (isDark) => (isDark ? "white" : "black"),
   },
   logo: {
     height: "2rem",
@@ -39,12 +38,14 @@ export const styles = {
     height: "2rem",
     width: 0,
     margin: "10px",
-    border: "0.5px solid #565656",
+    border: (isDark) => `0.5px solid ${isDark ? "#fff" : "#565656"}`,
   },
   title: {
     fontFamily: "Grand Hotel",
     fontSize: "1.5rem",
     cursor: "pointer",
+    fontWeight: (isDark) => isDark && 400,
+    color: (isDark) => isDark && "white",
   },
   iconContainer: {
     display: "flex",
@@ -55,25 +56,6 @@ export const styles = {
       marginRight: "10px",
       'theme.breakpoints.down("xs")': {
         marginRight: "7px",
-      },
-    },
-  },
-};
-
-export const useStyles = makeStyles((theme) => ({
-  ...styles,
-  container: {
-    ...styles.container,
-    [theme.breakpoints.down("xs")]: {
-      ...styles.container['theme.breakpoints.down("xs")'],
-    },
-  },
-  iconContainer: {
-    ...styles.iconContainer,
-    "& a": {
-      ...styles.iconContainer["& a"],
-      [theme.breakpoints.down("xs")]: {
-        ...styles.iconContainer["& a"]['theme.breakpoints.down("xs")'],
       },
     },
   },

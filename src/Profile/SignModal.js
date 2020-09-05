@@ -1,27 +1,17 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useStyles } from "./styles/lightStyles/SignModalStyle";
-import { useDarkStyles } from "./styles/darkStyles/darkSignModalStyle";
+import { useStyles } from "./styles/SignModalStyle";
 import { ThemeContext } from "./contexts/Theme.context";
 import { auth } from "../config/firebase.config";
+import { getModalStyle } from "./styles/reuseableStyle";
 import Modal from "@material-ui/core/Modal";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import ImageUpload from "./ImageUpload";
 
-function getModalStyle() {
-  return {
-    top: `50%`,
-    left: `50%`,
-    transform: `translate(-50%, -50%)`,
-  };
-}
-
 export default function SimpleModal() {
   const { isDarkMode } = useContext(ThemeContext);
-  const light = useStyles();
-  const dark = useDarkStyles();
-  const classes = isDarkMode ? dark : light;
+  const classes = useStyles(isDarkMode);
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = useState(getModalStyle);
   const [openSignUp, setOpenSignUp] = useState(false);
@@ -110,7 +100,6 @@ export default function SimpleModal() {
               variant="contained"
               disableElevation
               type="submit"
-              classes={{ root: classes.btnText }}
               onClick={openSignUp ? signUp : signIn}
             >
               {openSignUp ? "Sign Up" : "Sign In"}

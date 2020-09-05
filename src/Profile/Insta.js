@@ -4,17 +4,14 @@ import Info from "./Info";
 import PhotoList from "./PhotoList";
 import Divider from "@material-ui/core/Divider";
 import Switch from "@material-ui/core/Switch";
-import { useStyles } from "./styles/lightStyles/InstaStyle";
-import { useDarkStyles } from "./styles/darkStyles/darkInstaStyle";
+import { useStyles } from "./styles/InstaStyle";
 import { ThemeContext } from "./contexts/Theme.context";
 // import { AuthContext } from "./contexts/Auth.context";
 
 function Insta() {
   const { isDarkMode, toggleTheme } = useContext(ThemeContext);
   // const { isAuth } = useContext(AuthContext);
-  const light = useStyles();
-  const dark = useDarkStyles();
-  const classes = isDarkMode ? dark : light;
+  const classes = useStyles(isDarkMode);
 
   return (
     <>
