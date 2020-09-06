@@ -24,7 +24,6 @@ export default function ImageUpload(props) {
   const handleImages = (e) => {
     for (let file of e.target.files) {
       setImages((prev) => [...prev, file]);
-      console.log(file.name);
     }
   };
 
@@ -119,7 +118,7 @@ export default function ImageUpload(props) {
             <Grid container direction="column" spacing={2}>
               <Grid item>
                 <TextField
-                  disabled={progress ? true : false}
+                  disabled={!!progress}
                   fullWidth
                   required
                   type="text"
@@ -174,7 +173,7 @@ export default function ImageUpload(props) {
               )}
               <Grid item>
                 <Button
-                  disabled={progress || !title || !images[0]}
+                  disabled={!!progress || !!!title || !!!images[0]}
                   fullWidth
                   color={!!!progress ? "primary" : "default"}
                   variant="contained"

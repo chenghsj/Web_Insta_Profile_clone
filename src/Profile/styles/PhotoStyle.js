@@ -32,11 +32,7 @@ export const useStyles = makeStyles((theme) => ({
     position: "absolute",
     width: "100%",
     height: "100%",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
     fontSize: "1rem",
-    color: "white",
     backgroundColor: "black",
     borderRadius: "7px",
     opacity: 0,
@@ -44,9 +40,20 @@ export const useStyles = makeStyles((theme) => ({
     "&:hover": {
       opacity: 0.5,
     },
-    "& p": {
-      marginRight: "10px",
-      marginLeft: "7px",
+    "&:active": {
+      opacity: 0.5,
+    },
+  },
+  highlightOffIcon: {
+    color: "white",
+    margin: "0.5rem",
+    fontSize: "1.5rem",
+    position: "absolute",
+    left: 0,
+    top: 0,
+    transition: "all 0.3s",
+    "&:hover": {
+      transform: "scale(1.4)",
     },
   },
   lightBox: {
@@ -66,7 +73,7 @@ export const useStyles = makeStyles((theme) => ({
     transition: "opacity 0.3s",
     "&$active": {
       opacity: 1,
-      zIndex: 100,
+      zIndex: 20,
     },
   },
   active: {},
@@ -117,8 +124,10 @@ export const useStyles = makeStyles((theme) => ({
   },
   lightBoxTitle: {
     margin: "1rem",
+    color: (isDark) => isDark && "white",
   },
   lightBoxDesc: {
     margin: "1rem",
+    color: (isDark) => isDark && "white",
   },
 }));

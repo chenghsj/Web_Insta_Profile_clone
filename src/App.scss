@@ -13,16 +13,19 @@ $md: 960;
     height: 60%;
 }
 
-.swiper-pagination-bullet-active {
-    color: #0094f4;
+.swiper-pagination-bullet {
+    &.swiper-pagination-bullet-active {
+        background-color: #0094f4;
+        opacity: 1;
+    }
 }
 
 .swiper-pagination-bullets {
     bottom: 0 !important;
 }
 
-.swiper-pagination-bullets.dark {
-    background: white;
+.swiper-pagination-bullet {
+    background: gray;
     opacity: 0.6;
 }
 

@@ -25,7 +25,6 @@ export default function SimpleModal() {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((authUser) => {
       if (authUser) {
-        console.log(authUser);
         setUser(authUser);
       } else {
         setUser(null);
@@ -42,6 +41,7 @@ export default function SimpleModal() {
     auth
       .createUserWithEmailAndPassword(email, password)
       .then((authUser) => {
+        window.location.reload(false);
         return authUser.user.updateProfile({ displayName: username });
       })
       .catch((error) => alert(error.message));

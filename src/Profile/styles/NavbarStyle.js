@@ -1,7 +1,5 @@
 import { makeStyles } from "@material-ui/core/styles";
 
-const displayFlex = {};
-
 export const useStyles = makeStyles((theme) => ({
   container: {
     display: "flex",
@@ -43,7 +41,6 @@ export const useStyles = makeStyles((theme) => ({
   title: {
     fontFamily: "Grand Hotel",
     fontSize: "1.5rem",
-    cursor: "pointer",
     fontWeight: (isDark) => isDark && 400,
     color: (isDark) => isDark && "white",
   },

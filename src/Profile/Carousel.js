@@ -11,8 +11,9 @@ export default function Carousel(props) {
   return (
     <Swiper
       navigation
-      pagination={{ clickable: true }}
-      spaceBetween={0}
+      pagination={{
+        clickable: true,
+      }}
       slidesPerView={1}
       speed={700}
     >

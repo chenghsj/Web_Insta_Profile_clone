@@ -22,7 +22,6 @@ export default function PhotoList() {
                 post: doc.data(),
               }))
             );
-            console.log(snapshot.docs);
           });
       }
       return;

@@ -2,17 +2,21 @@ import React, { useState, useEffect, useContext, useRef } from "react";
 import { useStyles } from "./styles/PhotoStyle";
 import { ThemeContext } from "../Profile/contexts/Theme.context";
 import { useColor } from "color-thief-react";
+import { db } from "../config/firebase.config";
+import { AuthContext } from "./contexts/Auth.context";
 import FilterNoneIcon from "@material-ui/icons/FilterNone";
 import Carousel from "./Carousel";
+import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 
 const Photo = (props) => {
+  const { isDarkMode } = useContext(ThemeContext);
+  const { isAuth } = useContext(AuthContext);
+  const classes = useStyles(isDarkMode);
   const [open, setOpen] = useState(false);
   const iconColor = useRef("");
   const { data } = useColor(props.coverImage, "rgbArray", {
     crossOrigin: "anonymous",
   });
-  const { isDarkMode } = useContext(ThemeContext);
-  const classes = useStyles(isDarkMode);
 
   const setColorContrast = (color) => {
     if (color) {
@@ -39,9 +43,29 @@ const Photo = (props) => {
     if (e.target !== e.currentTarget) return;
     setOpen(false);
   };
+
+  const handleDelete = (e) => {
+    e.stopPropagation();
+    // eslint-disable-next-line no-restricted-globals
+    const del = confirm("Are you sure to delete the item?");
+    if (del) {
+      db.collection(isAuth.displayName)
+        .doc(isAuth.uid)
+        .collection("posts")
+        .doc(props.id)
+        .delete()
+        .then(() => {
+          console.log("Successfully deleted");
+        })
+        .catch((error) => error.message);
+    }
+    return;
+  };
+
   return (
     <>
       <div
+        onContextMenu={(e) => e.preventDefault()}
         onClick={handleClick}
         className={classes.root}
         style={{
@@ -58,7 +82,12 @@ const Photo = (props) => {
         >
           <FilterNoneIcon />
         </i>
-        <div className={classes.mask}></div>
+        <div className={classes.mask}>
+          <HighlightOffIcon
+            className={classes.highlightOffIcon}
+            onClick={handleDelete}
+          />
+        </div>
       </div>
       <div
         onClick={handleClose}

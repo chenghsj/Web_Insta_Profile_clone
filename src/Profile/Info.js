@@ -55,18 +55,17 @@ function Head() {
         db.collection(authUser?.displayName)
           .doc(authUser?.uid)
           .onSnapshot((doc) => {
-            console.log("set Profile");
             setEditProfile({
-              profile_image: doc.data().image,
-              profile_name: doc.data().name,
-              profile_info: doc.data().info,
-              profile_description: doc.data().description,
+              profile_image: doc.data()?.image || "",
+              profile_name: doc.data()?.name || "",
+              profile_info: doc.data()?.info || "",
+              profile_description: doc.data()?.description || "",
             });
             setConfirmProfile({
-              profile_image: doc.data().image,
-              profile_name: doc.data().name,
-              profile_info: doc.data().info,
-              profile_description: doc.data().description,
+              profile_image: doc.data()?.image || "",
+              profile_name: doc.data()?.name || "",
+              profile_info: doc.data()?.info || "",
+              profile_description: doc.data()?.description || "",
             });
           });
       }
@@ -74,7 +73,6 @@ function Head() {
     });
 
     if (isSubmit) {
-      console.log("set db profile");
       db.collection(isAuth.displayName).doc(isAuth.uid).set({
         image: confirmProfile.profile_image,
         name: confirmProfile.profile_name,
@@ -95,7 +93,6 @@ function Head() {
     if (e.target.files[0]) {
       setAvatar(e.target.files[0]);
     }
-    console.log(e.target.files[0]);
   };
 
   const handleImageUpload = (e) => {
@@ -120,7 +117,6 @@ function Head() {
             db.collection(isAuth.displayName)
               .doc(isAuth.uid)
               .update({ image: url });
-            console.log(url);
             setAvatar(null);
             setProgress(null);
             setAvatarUploadModal(false);
@@ -157,7 +153,7 @@ function Head() {
       <Grid container direction="column" spacing={2}>
         <Grid item>
           <TextField
-            disabled={progress ? true : false}
+            disabled={!!progress}
             variant="outlined"
             size="small"
             fullWidth
