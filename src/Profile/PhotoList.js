@@ -46,8 +46,12 @@ export default function PhotoList() {
         ))
       ) : (
         <div className={classes.intro}>
-          <h2>Sign Up/In and Upload Something</h2>
-          <p>The web is for testing. Do not use any real email.</p>
+          <h2>Sign Up and Upload Something</h2>
+          <p>
+            ( or try sign in with username: <strong>test@gmail.com</strong> with
+            password: <strong>123456</strong> )
+          </p>
+          <p>This web is for testing. Do not use any real email.</p>
         </div>
       )}
     </div>
