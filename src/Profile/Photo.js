@@ -47,7 +47,7 @@ const Photo = (props) => {
   const handleDelete = (e) => {
     e.stopPropagation();
     // eslint-disable-next-line no-restricted-globals
-    const del = confirm("Are you sure to delete the item?");
+    const del = confirm("Are you sure to delete the post?");
     if (del) {
       db.collection(isAuth.displayName)
         .doc(isAuth.uid)

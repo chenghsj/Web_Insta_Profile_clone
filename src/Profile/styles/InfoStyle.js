@@ -50,6 +50,8 @@ export const useStyles = makeStyles((theme) => ({
     border: (isDark) => `1px solid ${isDark ? "#d3d3d3" : "#71716f"}`,
   },
   info: {
+    wordBreak: "break-word",
+    whiteSpace: "pre-wrap",
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-around",

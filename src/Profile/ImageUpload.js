@@ -32,7 +32,9 @@ export default function ImageUpload(props) {
     const promises = [];
     for (let image of images) {
       const uploadTask = storage
-        .ref(`images/${isAuth.displayName}/${title}/${image.name}`)
+        .ref(
+          `images/${isAuth.displayName}/${isAuth.uid}/${title}/${image.name}`
+        )
         .put(image);
       promises.push(uploadTask);
       uploadTask.on(

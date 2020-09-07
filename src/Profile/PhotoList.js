@@ -7,6 +7,7 @@ import { AuthContext } from "./contexts/Auth.context";
 export default function PhotoList() {
   const [posts, setPosts] = useState([]);
   const { isAuth } = useContext(AuthContext);
+  const classes = useStyles();
 
   useEffect(() => {
     auth.onAuthStateChanged((authUser) => {
@@ -28,24 +29,10 @@ export default function PhotoList() {
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  const useStyles = makeStyles((theme) => ({
-    root: {
-      position: "relative",
-      display: "flex",
-      flexWrap: "wrap",
-      justifyContent: "flex-start",
-      width: "100%",
-      left: "5%",
-      [theme.breakpoints.down("xs")]: {
-        left: "3%",
-      },
-    },
-  }));
-  const classes = useStyles();
 
   return (
     <div className={classes.root}>
-      {isAuth &&
+      {isAuth ? (
         posts.map(({ post, id }, i) => (
           <Photo
             index={i}
@@ -56,7 +43,31 @@ export default function PhotoList() {
             key={id}
             id={id}
           />
-        ))}
+        ))
+      ) : (
+        <div className={classes.intro}>
+          <h2>Sign Up/In and Upload Something</h2>
+          <p>The web is for testing. Do not use your real email.</p>
+        </div>
+      )}
     </div>
   );
 }
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    position: "relative",
+    display: "flex",
+    flexWrap: "wrap",
+    justifyContent: "flex-start",
+    width: "100%",
+    left: "5%",
+    [theme.breakpoints.down("xs")]: {
+      left: "3%",
+    },
+  },
+  intro: {
+    color: "#b2b2b2",
+    position: "absolute",
+  },
+}));

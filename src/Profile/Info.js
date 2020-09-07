@@ -48,39 +48,39 @@ function Head() {
   const { profile_name, profile_info, profile_description } = editProfile;
 
   useEffect(() => {
-    // const displayName = isAuth?.displayName || "cheng";
-    // const uid = isAuth?.uid || "tuUQx0EI8RNhwIwlKUGXgKCIIYt2";
     auth.onAuthStateChanged((authUser) => {
       if (authUser) {
-        db.collection(authUser?.displayName)
-          .doc(authUser?.uid)
+        db.collection(authUser.displayName)
+          .doc(authUser.uid)
           .onSnapshot((doc) => {
+            console.log("1", confirmProfile, "submit", isSubmit);
             setEditProfile({
               profile_image: doc.data()?.image || "",
-              profile_name: doc.data()?.name || "",
+              profile_name: doc.data()?.name || authUser.displayName,
               profile_info: doc.data()?.info || "",
               profile_description: doc.data()?.description || "",
             });
             setConfirmProfile({
               profile_image: doc.data()?.image || "",
-              profile_name: doc.data()?.name || "",
+              profile_name: doc.data()?.name || authUser.displayName,
               profile_info: doc.data()?.info || "",
               profile_description: doc.data()?.description || "",
             });
           });
+        if (isSubmit) {
+          console.log("2", confirmProfile, "submit", isSubmit);
+          db.collection(authUser.displayName)
+            .doc(authUser.uid)
+            .set({
+              image: confirmProfile.profile_image,
+              name: confirmProfile.profile_name || authUser.displayName,
+              info: confirmProfile.profile_info,
+              description: confirmProfile.profile_description,
+            });
+        }
+        setIsSubmit(false);
       }
-      return;
     });
-
-    if (isSubmit) {
-      db.collection(isAuth.displayName).doc(isAuth.uid).set({
-        image: confirmProfile.profile_image,
-        name: confirmProfile.profile_name,
-        info: confirmProfile.profile_info,
-        description: confirmProfile.profile_description,
-      });
-      setIsSubmit(false);
-    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSubmit]);
 
@@ -97,8 +97,11 @@ function Head() {
 
   const handleImageUpload = (e) => {
     e.preventDefault();
+    const currentUser = auth.currentUser;
     const uploadTask = storage
-      .ref(`images/${isAuth.displayName}/profile_image/avatar`)
+      .ref(
+        `images/${currentUser.displayName}/${currentUser.uid}/profile_image/avatar`
+      )
       .put(avatar);
     uploadTask.on(
       "state_changed",
@@ -111,11 +114,13 @@ function Head() {
       (error) => console.log(error.message),
       () => {
         storage
-          .ref(`images/${isAuth.displayName}/profile_image/avatar`)
+          .ref(
+            `images/${currentUser.displayName}/${currentUser.uid}/profile_image/avatar`
+          )
           .getDownloadURL()
           .then((url) => {
-            db.collection(isAuth.displayName)
-              .doc(isAuth.uid)
+            db.collection(currentUser.displayName)
+              .doc(currentUser.uid)
               .update({ image: url });
             setAvatar(null);
             setProgress(null);
@@ -173,7 +178,7 @@ function Head() {
         )}
         <Grid item>
           <Button
-            disabled={!!!avatar}
+            disabled={!!!avatar || !!progress}
             fullWidth
             variant="contained"
             disableElevation
@@ -193,14 +198,18 @@ function Head() {
   const imageUploadModal = (
     <Modal
       open={avatarUploadModal}
-      onClose={() => setAvatarUploadModal(false)}
+      onClose={() => {
+        if (!progress) {
+          setAvatar(null);
+          setAvatarUploadModal(false);
+        }
+      }}
       // eslint-disable-next-line react/jsx-no-duplicate-props
       style={{ cursor: !!progress ? "progress" : "default" }}
     >
       {body}
     </Modal>
   );
-
   return (
     <div className={classes.container}>
       <div className={classes.avatarContainer}>
