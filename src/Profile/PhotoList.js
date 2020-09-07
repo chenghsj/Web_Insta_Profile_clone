@@ -7,7 +7,7 @@ import { AuthContext } from "./contexts/Auth.context";
 export default function PhotoList() {
   const [posts, setPosts] = useState([]);
   const { isAuth } = useContext(AuthContext);
-  const classes = useStyles();
+  const classes = useStyles(!!isAuth);
 
   useEffect(() => {
     auth.onAuthStateChanged((authUser) => {
@@ -59,15 +59,17 @@ const useStyles = makeStyles((theme) => ({
     position: "relative",
     display: "flex",
     flexWrap: "wrap",
-    justifyContent: "flex-start",
+    justifyContent: (isAuth) => (isAuth ? "flex-start" : "center"),
     width: "100%",
-    left: "5%",
+    left: (isAuth) => (isAuth ? "5%" : "5px"),
     [theme.breakpoints.down("xs")]: {
       left: "3%",
     },
   },
   intro: {
     color: "#b2b2b2",
-    position: "absolute",
+    position: "relative",
+    left: "-5px",
+    margin: "0 1rem",
   },
 }));

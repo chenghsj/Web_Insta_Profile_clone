@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useStyles } from "./styles/SignModalStyle";
 import { ThemeContext } from "./contexts/Theme.context";
-import { AuthContext } from "./contexts/Auth.context";
 import { auth } from "../config/firebase.config";
 import { getModalStyle } from "./styles/reuseableStyle";
 import Modal from "@material-ui/core/Modal";
@@ -12,7 +11,6 @@ import ImageUpload from "./ImageUpload";
 
 export default function SimpleModal() {
   const { isDarkMode } = useContext(ThemeContext);
-  const { isAuth, setIsAuth } = useContext(AuthContext);
   const classes = useStyles(isDarkMode);
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = useState(getModalStyle);

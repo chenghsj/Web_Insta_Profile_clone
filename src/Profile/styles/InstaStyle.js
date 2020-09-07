@@ -21,13 +21,19 @@ export const useStyles = makeStyles((theme) => ({
           ? "linear-gradient(0deg, #ee0979 0%,#ff6a00 100% )"
           : "linear-gradient(180deg, #36d1dc 0%,#5b86e5 100% )",
       height: "33%",
-      borderRadius: "0px 5px 5px 0px",
       margin: "5px",
+      borderRadius: "0px 5px 5px 0px",
+      [theme.breakpoints.down("xs")]: {
+        borderRadius: 0,
+      },
     },
     "&::-webkit-scrollbar-track": {
       borderLeft: (isDark) => `1px solid 
       ${isDark ? "#2a2a2a" : "#d6d6d7"}`,
       borderRadius: "0px 5px 5px 0px",
+      [theme.breakpoints.down("xs")]: {
+        borderRadius: 0,
+      },
     },
     [theme.breakpoints.down("md")]: {
       width: "80vw",
@@ -35,6 +41,7 @@ export const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down("xs")]: {
       width: "90vw",
       height: "90vh",
+      borderRadius: 0,
     },
   },
   divider: {

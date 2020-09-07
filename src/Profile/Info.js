@@ -24,8 +24,8 @@ function getModalStyle() {
 
 function Head() {
   const { isDarkMode } = useContext(ThemeContext);
-  const classes = useStyles(isDarkMode);
   const { isAuth } = useContext(AuthContext);
+  const classes = useStyles(isDarkMode);
   const [modalStyle] = React.useState(getModalStyle);
   const [isSubmit, setIsSubmit] = useState(false);
   const [edit, setEdit] = useState(false);
