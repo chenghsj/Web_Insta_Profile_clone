@@ -53,7 +53,6 @@ function Head() {
         db.collection(authUser.displayName)
           .doc(authUser.uid)
           .onSnapshot((doc) => {
-            console.log("1", confirmProfile, "submit", isSubmit);
             setEditProfile({
               profile_image: doc.data()?.image || "",
               profile_name: doc.data()?.name || authUser.displayName,
@@ -68,7 +67,6 @@ function Head() {
             });
           });
         if (isSubmit) {
-          console.log("2", confirmProfile, "submit", isSubmit);
           db.collection(authUser.displayName)
             .doc(authUser.uid)
             .set({

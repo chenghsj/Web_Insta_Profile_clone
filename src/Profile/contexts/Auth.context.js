@@ -9,7 +9,6 @@ export const AuthProvider = (props) => {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((authUser) => {
       if (authUser) {
-        console.log(authUser);
         setIsAuth({
           displayName: authUser.displayName,
           email: authUser.email,
