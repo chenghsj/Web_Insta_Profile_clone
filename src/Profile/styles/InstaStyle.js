@@ -1,7 +1,5 @@
 import { makeStyles } from "@material-ui/core/styles";
 
-export const styles = {};
-
 export const useStyles = makeStyles((theme) => ({
   container: {
     position: "relative",
@@ -14,6 +12,9 @@ export const useStyles = makeStyles((theme) => ({
     overflowX: "hidden",
     "&::-webkit-scrollbar": {
       width: "10px",
+      [theme.breakpoints.down("xs")]: {
+        width: 0,
+      },
     },
     "&::-webkit-scrollbar-thumb": {
       background: (isDark) =>

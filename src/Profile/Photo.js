@@ -1,16 +1,18 @@
-import React, { useState, useEffect, useContext, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useStyles } from "./styles/PhotoStyle";
-import { ThemeContext } from "../Profile/contexts/Theme.context";
+import { useDarkTheme } from "../Profile/contexts/Theme.context";
 import { useColor } from "color-thief-react";
 import { db } from "../config/firebase.config";
-import { AuthContext } from "./contexts/Auth.context";
-import FilterNoneIcon from "@material-ui/icons/FilterNone";
 import Carousel from "./Carousel";
-import HighlightOffIcon from "@material-ui/icons/HighlightOff";
+import { useAuthContext } from "./contexts/Auth.context";
+import {
+  FilterNone as FilterNoneIcon,
+  HighlightOff as HighlightOffIcon,
+} from "@material-ui/icons";
 
 const Photo = (props) => {
-  const { isDarkMode } = useContext(ThemeContext);
-  const { isAuth } = useContext(AuthContext);
+  const { isDarkMode } = useDarkTheme();
+  const [{ user }] = useAuthContext();
   const classes = useStyles(isDarkMode);
   const [open, setOpen] = useState(false);
   const iconColor = useRef("");
@@ -33,7 +35,8 @@ const Photo = (props) => {
 
   useEffect(() => {
     iconColor.current.style.color = setColorContrast(data);
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleClick = () => {
     setOpen(true);
@@ -49,8 +52,8 @@ const Photo = (props) => {
     // eslint-disable-next-line no-restricted-globals
     const del = confirm("Are you sure to delete the post?");
     if (del) {
-      db.collection(isAuth.displayName)
-        .doc(isAuth.uid)
+      db.collection(user.displayName)
+        .doc(user.uid)
         .collection("posts")
         .doc(props.id)
         .delete()

@@ -1,18 +1,22 @@
-import React, { useState, useEffect, useContext } from "react";
-import Avatar from "@material-ui/core/Avatar";
+import React, { useState, useEffect } from "react";
 import { useStyles } from "./styles/InfoStyle";
-import { ThemeContext } from "./contexts/Theme.context";
-import { AuthContext } from "./contexts/Auth.context";
-import Input from "@material-ui/core/Input";
-import DoneIcon from "@material-ui/icons/Done";
-import CloseIcon from "@material-ui/icons/Close";
-import EditIcon from "@material-ui/icons/Edit";
-import Modal from "@material-ui/core/Modal";
-import Button from "@material-ui/core/Button";
-import Grid from "@material-ui/core/Grid";
-import TextField from "@material-ui/core/TextField";
-import LinearProgress from "@material-ui/core/LinearProgress";
+import { useDarkTheme } from "./contexts/Theme.context";
+import { useAuthContext } from "./contexts/Auth.context";
 import { storage, db, auth } from "../config/firebase.config";
+import {
+  Done as DoneIcon,
+  Close as CloseIcon,
+  Edit as EditIcon,
+} from "@material-ui/icons";
+import {
+  Avatar,
+  Button,
+  Grid,
+  Input,
+  TextField,
+  LinearProgress,
+  Modal,
+} from "@material-ui/core";
 
 function getModalStyle() {
   return {
@@ -23,8 +27,8 @@ function getModalStyle() {
 }
 
 function Head() {
-  const { isDarkMode } = useContext(ThemeContext);
-  const { isAuth } = useContext(AuthContext);
+  const { isDarkMode } = useDarkTheme();
+  const [{ user }] = useAuthContext();
   const classes = useStyles(isDarkMode);
   const [modalStyle] = React.useState(getModalStyle);
   const [isSubmit, setIsSubmit] = useState(false);
@@ -48,39 +52,39 @@ function Head() {
   const { profile_name, profile_info, profile_description } = editProfile;
 
   useEffect(() => {
-    auth.onAuthStateChanged((authUser) => {
-      if (authUser) {
-        db.collection(authUser.displayName)
-          .doc(authUser.uid)
-          .onSnapshot((doc) => {
-            setEditProfile({
-              profile_image: doc.data()?.image || "",
-              profile_name: doc.data()?.name || authUser.displayName,
-              profile_info: doc.data()?.info || "",
-              profile_description: doc.data()?.description || "",
-            });
-            setConfirmProfile({
-              profile_image: doc.data()?.image || "",
-              profile_name: doc.data()?.name || authUser.displayName,
-              profile_info: doc.data()?.info || "",
-              profile_description: doc.data()?.description || "",
-            });
+    if (user) {
+      console.log(user);
+
+      db.collection(user.displayName)
+        .doc(user.uid)
+        .onSnapshot((doc) => {
+          setEditProfile({
+            profile_image: doc.data()?.image || "",
+            profile_name: doc.data()?.name || user.displayName,
+            profile_info: doc.data()?.info || "",
+            profile_description: doc.data()?.description || "",
           });
-        if (isSubmit) {
-          db.collection(authUser.displayName)
-            .doc(authUser.uid)
-            .set({
-              image: confirmProfile.profile_image,
-              name: confirmProfile.profile_name || authUser.displayName,
-              info: confirmProfile.profile_info,
-              description: confirmProfile.profile_description,
-            });
-        }
-        setIsSubmit(false);
-      }
-    });
+          setConfirmProfile({
+            profile_image: doc.data()?.image || "",
+            profile_name: doc.data()?.name || user.displayName,
+            profile_info: doc.data()?.info || "",
+            profile_description: doc.data()?.description || "",
+          });
+        });
+    }
+    if (isSubmit) {
+      db.collection(user.displayName)
+        .doc(user.uid)
+        .set({
+          image: confirmProfile.profile_image,
+          name: confirmProfile.profile_name || user.displayName,
+          info: confirmProfile.profile_info,
+          description: confirmProfile.profile_description,
+        });
+    }
+    setIsSubmit(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isSubmit]);
+  }, [user, isSubmit]);
 
   const handleProfileChange = (e) => {
     e.preventDefault();
@@ -218,15 +222,15 @@ function Head() {
             style={{
               width: "90%",
               height: "90%",
-              cursor: isAuth ? "pointer" : "default",
+              cursor: user ? "pointer" : "default",
             }}
             onClick={() => {
-              if (isAuth) {
+              if (user) {
                 setAvatarUploadModal(true);
                 setAvatar(null);
               }
             }}
-            src={isAuth && confirmProfile.profile_image}
+            src={user && confirmProfile.profile_image}
           />
           {imageUploadModal}
         </div>
@@ -255,8 +259,8 @@ function Head() {
             </div>
           ) : (
             <div className={classes.editIcon}>
-              <h2>{isAuth && confirmProfile.profile_name}</h2>
-              {isAuth && (
+              <h2>{user && confirmProfile.profile_name}</h2>
+              {user && (
                 <EditIcon
                   onClick={() => setEdit(true)}
                   style={{
@@ -287,7 +291,7 @@ function Head() {
         ) : (
           <div className={classes.editIcon}>
             <p style={{ fontSize: "0.8rem", fontWeight: "bold", margin: 0 }}>
-              {isAuth && confirmProfile.profile_info}
+              {user && confirmProfile.profile_info}
             </p>
           </div>
         )}
@@ -314,7 +318,7 @@ function Head() {
               justifyContent: "space-between",
             }}
           >
-            <p>{isAuth && confirmProfile.profile_description}</p>
+            <p>{user && confirmProfile.profile_description}</p>
           </div>
         )}
       </div>

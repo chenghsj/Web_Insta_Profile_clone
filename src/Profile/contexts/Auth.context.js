@@ -1,31 +1,13 @@
-import React, { createContext, useState, useEffect } from "react";
-import { auth } from "../../config/firebase.config";
+import React, { createContext, useContext, useReducer } from "react";
 
 export const AuthContext = createContext();
 
-export const AuthProvider = (props) => {
-  const [isAuth, setIsAuth] = useState(null);
-
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((authUser) => {
-      if (authUser) {
-        setIsAuth({
-          displayName: authUser.displayName,
-          email: authUser.email,
-          uid: authUser.uid,
-        });
-      } else {
-        setIsAuth(null);
-      }
-    });
-    return () => {
-      //perform some cleanup actions
-      unsubscribe();
-    };
-  }, []);
+export const AuthProvider = ({ reducer, initialState, children }) => {
   return (
-    <AuthContext.Provider value={{ isAuth, setIsAuth }}>
-      {props.children}
+    <AuthContext.Provider value={useReducer(reducer, initialState)}>
+      {children}
     </AuthContext.Provider>
   );
 };
+
+export const useAuthContext = () => useContext(AuthContext);

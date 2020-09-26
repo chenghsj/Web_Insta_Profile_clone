@@ -1,16 +1,14 @@
-import React, { useContext } from "react";
+import React from "react";
 import Navbar from "./Navbar";
 import Info from "./Info";
 import PhotoList from "./PhotoList";
-import Divider from "@material-ui/core/Divider";
-import Switch from "@material-ui/core/Switch";
+import { Divider, Switch } from "@material-ui/core";
 import { useStyles } from "./styles/InstaStyle";
-import { ThemeContext } from "./contexts/Theme.context";
+import { useDarkTheme } from "./contexts/Theme.context";
 // import { AuthContext } from "./contexts/Auth.context";
 
 function Insta() {
-  const { isDarkMode, toggleTheme } = useContext(ThemeContext);
-  // const { isAuth } = useContext(AuthContext);
+  const { isDarkMode, toggleTheme } = useDarkTheme();
   const classes = useStyles(isDarkMode);
 
   return (
@@ -23,13 +21,9 @@ function Insta() {
       />
       <div className={classes.container}>
         <Navbar />
-        {/* {isAuth ? (
-          <> */}
         <Info />
         <Divider className={classes.divider} />
         <PhotoList Num={18} />
-        {/* </>
-        ) : null} */}
       </div>
     </>
   );

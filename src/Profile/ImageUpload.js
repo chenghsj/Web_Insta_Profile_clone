@@ -1,19 +1,21 @@
-import React, { useState, useContext } from "react";
-import Modal from "@material-ui/core/Modal";
-import Button from "@material-ui/core/Button";
-import Grid from "@material-ui/core/Grid";
-import TextField from "@material-ui/core/TextField";
-import LinearProgress from "@material-ui/core/LinearProgress";
+import React, { useState } from "react";
 import { getModalStyle } from "./styles/reuseableStyle";
 import { useStyles } from "./styles/ImageUploadStyle";
 import { storage, db } from "../config/firebase.config";
-import { ThemeContext } from "./contexts/Theme.context";
-import { AuthContext } from "./contexts/Auth.context";
+import { useDarkTheme } from "./contexts/Theme.context";
+import { useAuthContext } from "./contexts/Auth.context";
 import firebase from "firebase";
+import {
+  Button,
+  Grid,
+  Modal,
+  TextField,
+  LinearProgress,
+} from "@material-ui/core";
 
 export default function ImageUpload(props) {
-  const { isDarkMode } = useContext(ThemeContext);
-  const { isAuth } = useContext(AuthContext);
+  const { isDarkMode } = useDarkTheme();
+  const [{ user }] = useAuthContext();
   const [modalStyle] = useState(getModalStyle);
   const classes = useStyles();
   const [title, setTitle] = useState("");
@@ -32,9 +34,7 @@ export default function ImageUpload(props) {
     const promises = [];
     for (let image of images) {
       const uploadTask = storage
-        .ref(
-          `images/${isAuth.displayName}/${isAuth.uid}/${title}/${image.name}`
-        )
+        .ref(`images/${user.displayName}/${user.uid}/${title}/${image.name}`)
         .put(image);
       promises.push(uploadTask);
       uploadTask.on(
@@ -66,13 +66,13 @@ export default function ImageUpload(props) {
         }
         const imagesURL = await Promise.all(promises);
         await db
-          .collection(isAuth.displayName)
-          .doc(isAuth.uid)
+          .collection(user.displayName)
+          .doc(user.uid)
           .collection("posts")
           .doc()
           .set({
             timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-            username: isAuth.displayName,
+            username: user.displayName,
             title: title,
             description: desc,
             coverImage: imagesURL[0],

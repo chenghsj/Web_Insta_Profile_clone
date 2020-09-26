@@ -5,7 +5,7 @@ export const useStyles = makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
-    backgroundColor: (isDark) => isDark && "#2a2a2a",
+    // backgroundColor: (isDark) => isDark && "#2a2a2a",
     position: "sticky",
     top: 0,
     left: 0,
@@ -14,7 +14,7 @@ export const useStyles = makeStyles((theme) => ({
     borderRadius: 0,
     padding: "10px 20px",
     zIndex: 20,
-    'theme.breakpoints.down("xs")': {
+    [theme.breakpoints.down("xs")]: {
       padding: "10px",
     },
   },
@@ -24,19 +24,21 @@ export const useStyles = makeStyles((theme) => ({
     color: (isDark) => (isDark ? "white" : "black"),
   },
   Brand: {
+    height: "100%",
     display: "flex",
     alignItems: "center",
     width: "33%",
     color: (isDark) => (isDark ? "white" : "black"),
+    "& $divider": {
+      width: 0,
+      height: "80%",
+      margin: "0.5rem",
+      // border: (isDark) => `0.5px solid ${isDark ? "#fff" : "#565656"}`,
+    },
   },
+  divider: {},
   logo: {
     height: "2rem",
-  },
-  divider: {
-    height: "2rem",
-    width: 0,
-    margin: "10px",
-    border: (isDark) => `0.5px solid ${isDark ? "#fff" : "#565656"}`,
   },
   title: {
     fontFamily: "Grand Hotel",
@@ -51,7 +53,7 @@ export const useStyles = makeStyles((theme) => ({
     width: "33%",
     "& a": {
       marginRight: "10px",
-      'theme.breakpoints.down("xs")': {
+      [theme.breakpoints.down("xs")]: {
         marginRight: "7px",
       },
     },

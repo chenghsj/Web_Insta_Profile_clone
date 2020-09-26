@@ -1,24 +1,35 @@
-import React, { useContext } from "react";
+import React from "react";
 import Logo from "../Image/logo.js";
-import Divider from "@material-ui/core/Divider";
-import Paper from "@material-ui/core/Paper";
-import GitHubIcon from "@material-ui/icons/GitHub";
-import EmailIcon from "@material-ui/icons/Email";
-import FacebookIcon from "@material-ui/icons/Facebook";
 import { useStyles } from "./styles/NavbarStyle";
-import { ThemeContext } from "../Profile/contexts/Theme.context";
+import { useDarkTheme } from "./contexts/Theme.context";
 import SignModal from "./SignModal";
+import { Paper } from "@material-ui/core";
+import {
+  GitHub as GitHubIcon,
+  Email as EmailIcon,
+  Facebook as FacebookIcon,
+} from "@material-ui/icons";
+
 // import classes from "./Nav.module.css";
 
 function Navbar() {
-  const { isDarkMode } = useContext(ThemeContext);
+  const { isDarkMode } = useDarkTheme();
   const classes = useStyles(isDarkMode);
 
   return (
-    <Paper className={classes.container}>
+    <Paper
+      square={true}
+      style={{ background: isDarkMode && "#2a2a2a" }}
+      className={classes.container}
+    >
       <div className={classes.Brand}>
         <Logo height="2rem" color={isDarkMode ? "white" : "black"} />
-        <Divider orientation="vertical" className={classes.divider} />
+        <div
+          style={{
+            borderLeft: `1px solid ${isDarkMode ? "white" : "#565656"}`,
+          }}
+          className={classes.divider}
+        />
         <h3 className={classes.title}>Cheng</h3>
       </div>
       <div className={classes.iconContainer}>

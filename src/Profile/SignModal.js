@@ -1,48 +1,41 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState } from "react";
 import { useStyles } from "./styles/SignModalStyle";
-import { ThemeContext } from "./contexts/Theme.context";
+import { useDarkTheme } from "./contexts/Theme.context";
 import { auth } from "../config/firebase.config";
 import { getModalStyle } from "./styles/reuseableStyle";
-import Modal from "@material-ui/core/Modal";
-import Button from "@material-ui/core/Button";
-import Grid from "@material-ui/core/Grid";
-import TextField from "@material-ui/core/TextField";
+import { Button, Grid, Modal, TextField } from "@material-ui/core";
 import ImageUpload from "./ImageUpload";
+import { useAuthContext } from "./contexts/Auth.context";
 
 export default function SimpleModal() {
-  const { isDarkMode } = useContext(ThemeContext);
+  const { isDarkMode } = useDarkTheme();
   const classes = useStyles(isDarkMode);
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = useState(getModalStyle);
+  const [{ user }, dispatch] = useAuthContext();
   const [openSignUp, setOpenSignUp] = useState(false);
   const [openSignIn, setOpenSignIn] = useState(false);
   const [openUpload, setOpenUpload] = useState(false);
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((authUser) => {
-      if (authUser) {
-        setUser(authUser);
-      } else {
-        setUser(null);
-      }
-    });
-    return () => {
-      //perform some cleanup actions
-      unsubscribe();
-    };
-  }, [user, username]);
+  // const [user, setUser] = useState(null);
 
   const signUp = (e) => {
     e.preventDefault();
     auth
       .createUserWithEmailAndPassword(email, password)
       .then((authUser) => {
-        window.location.reload(false);
-        return authUser.user.updateProfile({ displayName: username });
+        authUser.user.updateProfile({ displayName: username }).then(() => {
+          dispatch({
+            type: "SET_USER",
+            user: {
+              displayName: authUser.user.displayName,
+              email: authUser.user.email,
+              uid: authUser.user.uid,
+            },
+          });
+        });
       })
       .catch((error) => alert(error.message));
     setOpenSignUp(false);
@@ -146,7 +139,7 @@ export default function SimpleModal() {
                 .signOut()
                 .then(() => {
                   console.log("Signed Out");
-                  window.location.reload(false);
+                  dispatch({ type: "STE_USER", user: null });
                 })
                 .catch((error) => error.message);
             } else {

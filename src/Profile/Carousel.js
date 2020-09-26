@@ -7,7 +7,7 @@ import "swiper/components/pagination/pagination.scss";
 
 SwiperCore.use([Navigation, Pagination]);
 
-export default function Carousel(props) {
+function Carousel(props) {
   return (
     <Swiper
       navigation
@@ -29,3 +29,5 @@ export default function Carousel(props) {
     </Swiper>
   );
 }
+
+export default Carousel;

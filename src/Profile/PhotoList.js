@@ -1,38 +1,35 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import Photo from "./Photo";
 import { makeStyles } from "@material-ui/core/styles";
-import { db, auth } from "../config/firebase.config";
-import { AuthContext } from "./contexts/Auth.context";
+import { db } from "../config/firebase.config";
+import { useAuthContext } from "./contexts/Auth.context";
 
-export default function PhotoList() {
+function PhotoList() {
   const [posts, setPosts] = useState([]);
-  const { isAuth } = useContext(AuthContext);
-  const classes = useStyles(!!isAuth);
+  const [{ user }] = useAuthContext();
+  const classes = useStyles(!!user);
 
   useEffect(() => {
-    auth.onAuthStateChanged((authUser) => {
-      if (authUser) {
-        db.collection(authUser.displayName)
-          .doc(authUser.uid)
-          .collection("posts")
-          .orderBy("timestamp", "desc")
-          .onSnapshot((snapshot) => {
-            setPosts(
-              snapshot.docs.map((doc) => ({
-                id: doc.id,
-                post: doc.data(),
-              }))
-            );
-          });
-      }
-      return;
-    });
+    if (user) {
+      db.collection(user.displayName)
+        .doc(user.uid)
+        .collection("posts")
+        .orderBy("timestamp", "desc")
+        .onSnapshot((snapshot) => {
+          setPosts(
+            snapshot.docs.map((doc) => ({
+              id: doc.id,
+              post: doc.data(),
+            }))
+          );
+        });
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [user]);
 
   return (
     <div className={classes.root}>
-      {isAuth ? (
+      {user ? (
         posts.map(({ post, id }, i) => (
           <Photo
             index={i}
@@ -48,7 +45,7 @@ export default function PhotoList() {
         <div className={classes.intro}>
           <h2>Sign Up and Upload Something</h2>
           <p>
-            ( or try sign in with username: <strong>test@gmail.com</strong> with
+            ( or try sign in with email: <strong>test@gmail.com</strong> with
             password: <strong>123456</strong> )
           </p>
           <p>This web is for testing. Do not use any real email.</p>
@@ -57,17 +54,20 @@ export default function PhotoList() {
     </div>
   );
 }
+export default PhotoList;
 
 const useStyles = makeStyles((theme) => ({
   root: {
     position: "relative",
     display: "flex",
     flexWrap: "wrap",
-    justifyContent: (isAuth) => (isAuth ? "flex-start" : "center"),
+    justifyContent: (user) => (user ? "flex-start" : "center"),
     width: "100%",
-    left: (isAuth) => (isAuth ? "5%" : "5px"),
+    left: (user) => (user ? "5%" : "5px"),
     [theme.breakpoints.down("xs")]: {
-      left: "3%",
+      left: "0 !important",
+      justifyContent: "flex-start !important",
+      padding: "0 3.3%",
     },
   },
   intro: {

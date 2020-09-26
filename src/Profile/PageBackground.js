@@ -1,8 +1,8 @@
-import React, { useContext } from "react";
-import { ThemeContext } from "./contexts/Theme.context";
+import React from "react";
+import { useDarkTheme } from "./contexts/Theme.context";
 
 export default function PageBackground(props) {
-  const { isDarkMode } = useContext(ThemeContext);
+  const { isDarkMode } = useDarkTheme();
   const dark = "linear-gradient(to right bottom,#ff6a00 0%, #ee0979 100%)";
   const light = "linear-gradient(to right bottom, #89f7fe 0%, #66a6ff 100%)";
 
