@@ -27,25 +27,13 @@ function App() {
             uid: authUser.uid,
           },
         });
-        dispatch({
-          type: "SET_THEME",
-          isDark: db
-            .collection(authUser.displayName)
-            .doc(authUser.uid)
-            .get()
-            .then((doc) => doc.data().isDark),
-        });
       } else {
         dispatch({
           type: "SET_USER",
           user: null,
         });
         dispatch({
-<<<<<<< HEAD
           type: "SET_THEME",
-=======
-          type: "SET_Theme",
->>>>>>> 2678180e9e127e6ba727df6ce998edd5c75ab9b6
           isDark: false,
         });
       }

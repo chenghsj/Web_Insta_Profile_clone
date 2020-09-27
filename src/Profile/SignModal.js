@@ -140,14 +140,6 @@ export default function SimpleModal() {
                 .signOut()
                 .then(() => {
                   console.log("Signed Out");
-<<<<<<< HEAD
-=======
-                  dispatch({ type: "STE_USER", user: null });
-                  dispatch({
-                    type: "SET_THEME",
-                    isDark: false,
-                  });
->>>>>>> 2678180e9e127e6ba727df6ce998edd5c75ab9b6
                 })
                 .catch((error) => error.message);
             } else {
