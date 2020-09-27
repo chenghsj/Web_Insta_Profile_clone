@@ -12,7 +12,10 @@ import { db } from "../config/firebase.config";
 function Insta() {
   const [{ user, isDark }, dispatch] = useAuthContext();
   const classes = useStyles(isDark);
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2678180e9e127e6ba727df6ce998edd5c75ab9b6
   return (
     <>
       <Switch
