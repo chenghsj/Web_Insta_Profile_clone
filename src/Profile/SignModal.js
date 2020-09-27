@@ -1,24 +1,22 @@
 import React, { useState } from "react";
 import { useStyles } from "./styles/SignModalStyle";
-import { useDarkTheme } from "./contexts/Theme.context";
-import { auth } from "../config/firebase.config";
+import { db, auth } from "../config/firebase.config";
 import { getModalStyle } from "./styles/reuseableStyle";
 import { Button, Grid, Modal, TextField } from "@material-ui/core";
 import ImageUpload from "./ImageUpload";
 import { useAuthContext } from "./contexts/Auth.context";
 
 export default function SimpleModal() {
-  const { isDarkMode } = useDarkTheme();
-  const classes = useStyles(isDarkMode);
   // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = useState(getModalStyle);
-  const [{ user }, dispatch] = useAuthContext();
+  const [{ user, isDark }, dispatch] = useAuthContext();
   const [openSignUp, setOpenSignUp] = useState(false);
   const [openSignIn, setOpenSignIn] = useState(false);
   const [openUpload, setOpenUpload] = useState(false);
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const classes = useStyles(isDark);
   // const [user, setUser] = useState(null);
 
   const signUp = (e) => {
@@ -35,6 +33,9 @@ export default function SimpleModal() {
               uid: authUser.user.uid,
             },
           });
+          db.collection(authUser.user.displayName)
+            .doc(authUser.user.uid)
+            .set({ isDark: false });
         });
       })
       .catch((error) => alert(error.message));
@@ -139,7 +140,6 @@ export default function SimpleModal() {
                 .signOut()
                 .then(() => {
                   console.log("Signed Out");
-                  dispatch({ type: "STE_USER", user: null });
                 })
                 .catch((error) => error.message);
             } else {

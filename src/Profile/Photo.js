@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useStyles } from "./styles/PhotoStyle";
-import { useDarkTheme } from "../Profile/contexts/Theme.context";
 import { useColor } from "color-thief-react";
 import { db } from "../config/firebase.config";
 import Carousel from "./Carousel";
@@ -11,9 +10,8 @@ import {
 } from "@material-ui/icons";
 
 const Photo = (props) => {
-  const { isDarkMode } = useDarkTheme();
-  const [{ user }] = useAuthContext();
-  const classes = useStyles(isDarkMode);
+  const [{ user, isDark }] = useAuthContext();
+  const classes = useStyles(isDark);
   const [open, setOpen] = useState(false);
   const iconColor = useRef("");
   const { data } = useColor(props.coverImage, "rgbArray", {

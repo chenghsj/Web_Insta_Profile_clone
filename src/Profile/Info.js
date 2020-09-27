@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useStyles } from "./styles/InfoStyle";
-import { useDarkTheme } from "./contexts/Theme.context";
 import { useAuthContext } from "./contexts/Auth.context";
-import { storage, db, auth } from "../config/firebase.config";
+import { storage, db } from "../config/firebase.config";
 import {
   Done as DoneIcon,
   Close as CloseIcon,
@@ -27,9 +26,8 @@ function getModalStyle() {
 }
 
 function Head() {
-  const { isDarkMode } = useDarkTheme();
-  const [{ user }] = useAuthContext();
-  const classes = useStyles(isDarkMode);
+  const [{ user, isDark }] = useAuthContext();
+  const classes = useStyles(isDark);
   const [modalStyle] = React.useState(getModalStyle);
   const [isSubmit, setIsSubmit] = useState(false);
   const [edit, setEdit] = useState(false);
@@ -50,11 +48,8 @@ function Head() {
   });
 
   const { profile_name, profile_info, profile_description } = editProfile;
-
   useEffect(() => {
-    if (user) {
-      console.log(user);
-
+    if (user?.displayName) {
       db.collection(user.displayName)
         .doc(user.uid)
         .onSnapshot((doc) => {
@@ -75,7 +70,7 @@ function Head() {
     if (isSubmit) {
       db.collection(user.displayName)
         .doc(user.uid)
-        .set({
+        .update({
           image: confirmProfile.profile_image,
           name: confirmProfile.profile_name || user.displayName,
           info: confirmProfile.profile_info,
@@ -99,11 +94,8 @@ function Head() {
 
   const handleImageUpload = (e) => {
     e.preventDefault();
-    const currentUser = auth.currentUser;
     const uploadTask = storage
-      .ref(
-        `images/${currentUser.displayName}/${currentUser.uid}/profile_image/avatar`
-      )
+      .ref(`images/${user.displayName}/${user.uid}/profile_image/avatar`)
       .put(avatar);
     uploadTask.on(
       "state_changed",
@@ -112,17 +104,16 @@ function Head() {
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100
         );
         setProgress(progress);
+        console.log("Uploading...");
       },
       (error) => console.log(error.message),
       () => {
         storage
-          .ref(
-            `images/${currentUser.displayName}/${currentUser.uid}/profile_image/avatar`
-          )
+          .ref(`images/${user.displayName}/${user.uid}/profile_image/avatar`)
           .getDownloadURL()
           .then((url) => {
-            db.collection(currentUser.displayName)
-              .doc(currentUser.uid)
+            db.collection(user.displayName)
+              .doc(user.uid)
               .update({ image: url });
             setAvatar(null);
             setProgress(null);
