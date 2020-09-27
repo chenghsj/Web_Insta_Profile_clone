@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { getModalStyle } from "./styles/reuseableStyle";
 import { useStyles } from "./styles/ImageUploadStyle";
 import { storage, db } from "../config/firebase.config";
-import { useDarkTheme } from "./contexts/Theme.context";
 import { useAuthContext } from "./contexts/Auth.context";
 import firebase from "firebase";
 import {
@@ -14,8 +13,7 @@ import {
 } from "@material-ui/core";
 
 export default function ImageUpload(props) {
-  const { isDarkMode } = useDarkTheme();
-  const [{ user }] = useAuthContext();
+  const [{ user, isDark }] = useAuthContext();
   const [modalStyle] = useState(getModalStyle);
   const classes = useStyles();
   const [title, setTitle] = useState("");
@@ -100,8 +98,8 @@ export default function ImageUpload(props) {
         onClick={() => props.setOpenUpload(true)}
         className={classes.button}
         style={{
-          background: isDarkMode && "white",
-          color: isDarkMode && "black",
+          background: isDark && "white",
+          color: isDark && "black",
         }}
       >
         Upload

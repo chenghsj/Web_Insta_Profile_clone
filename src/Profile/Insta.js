@@ -1,20 +1,29 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
 import Navbar from "./Navbar";
 import Info from "./Info";
 import PhotoList from "./PhotoList";
 import { Divider, Switch } from "@material-ui/core";
 import { useStyles } from "./styles/InstaStyle";
-import { useDarkTheme } from "./contexts/Theme.context";
+import { useAuthContext } from "./contexts/Auth.context";
+import { db } from "../config/firebase.config";
 // import { AuthContext } from "./contexts/Auth.context";
 
 function Insta() {
-  const { isDarkMode, toggleTheme } = useDarkTheme();
-  const classes = useStyles(isDarkMode);
-
+  const [{ user, isDark }, dispatch] = useAuthContext();
+  const classes = useStyles(isDark);
   return (
     <>
       <Switch
-        onChange={toggleTheme}
+        checked={!!isDark}
+        onChange={() => {
+          dispatch({ type: "SET_THEME", isDark: !isDark });
+          if (user) {
+            db.collection(user?.displayName)
+              .doc(user.uid)
+              .update({ isDark: !isDark });
+          }
+        }}
         color="default"
         inputProps={{ "aria-label": "default checkbox" }}
         className={classes.toggle}

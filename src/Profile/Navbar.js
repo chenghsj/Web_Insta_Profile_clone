@@ -1,7 +1,6 @@
 import React from "react";
 import Logo from "../Image/logo.js";
 import { useStyles } from "./styles/NavbarStyle";
-import { useDarkTheme } from "./contexts/Theme.context";
 import SignModal from "./SignModal";
 import { Paper } from "@material-ui/core";
 import {
@@ -9,24 +8,25 @@ import {
   Email as EmailIcon,
   Facebook as FacebookIcon,
 } from "@material-ui/icons";
+import { useAuthContext } from "./contexts/Auth.context";
 
 // import classes from "./Nav.module.css";
 
 function Navbar() {
-  const { isDarkMode } = useDarkTheme();
-  const classes = useStyles(isDarkMode);
+  const [{ isDark }] = useAuthContext();
+  const classes = useStyles(isDark);
 
   return (
     <Paper
       square={true}
-      style={{ background: isDarkMode && "#2a2a2a" }}
+      style={{ background: isDark && "#2a2a2a" }}
       className={classes.container}
     >
       <div className={classes.Brand}>
-        <Logo height="2rem" color={isDarkMode ? "white" : "black"} />
+        <Logo height="2rem" color={isDark ? "white" : "black"} />
         <div
           style={{
-            borderLeft: `1px solid ${isDarkMode ? "white" : "#565656"}`,
+            borderLeft: `1px solid ${isDark ? "white" : "#565656"}`,
           }}
           className={classes.divider}
         />

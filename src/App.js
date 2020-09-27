@@ -4,6 +4,7 @@ import "./App.scss";
 import PageBackground from "./Profile/PageBackground";
 import { auth } from "./config/firebase.config";
 import { useAuthContext } from "./Profile/contexts/Auth.context";
+import { db } from "./config/firebase.config";
 
 function App() {
   // eslint-disable-next-line no-empty-pattern
@@ -19,10 +20,22 @@ function App() {
             uid: authUser.uid,
           },
         });
+        dispatch({
+          type: "SET_THEME",
+          isDark: db
+            .collection(authUser.displayName)
+            .doc(authUser.uid)
+            .get()
+            .then((doc) => doc.data().isDark),
+        });
       } else {
         dispatch({
           type: "SET_USER",
           user: null,
+        });
+        dispatch({
+          type: "SET_Theme",
+          isDark: false,
         });
       }
     });
@@ -32,6 +45,7 @@ function App() {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   return (
     <div className="App">
       <PageBackground></PageBackground>

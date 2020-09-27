@@ -10,7 +10,7 @@ function PhotoList() {
   const classes = useStyles(!!user);
 
   useEffect(() => {
-    if (user) {
+    if (user?.displayName) {
       db.collection(user.displayName)
         .doc(user.uid)
         .collection("posts")

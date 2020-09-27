@@ -5,14 +5,11 @@ import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import { AuthProvider } from "./Profile/contexts/Auth.context";
 import { reducer, initialState } from "./reducer";
-import { ThemeProvider } from "./Profile/contexts/Theme.context";
 // import "bootstrap/dist/css/bootstrap.min.css";
 
 ReactDOM.render(
   <AuthProvider initialState={initialState} reducer={reducer}>
-    <ThemeProvider>
-      <App />
-    </ThemeProvider>
+    <App />
   </AuthProvider>,
   document.getElementById("root")
 );
