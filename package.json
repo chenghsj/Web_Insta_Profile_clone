@@ -12,7 +12,7 @@
     "bootstrap": "^4.4.1",
     "color-thief-react": "^2.0.8",
     "firebase": "^7.18.0",
-    "node-sass": "^4.14.1",
+    "node-sass": "^7.0.0",
     "react": "^16.13.1",
     "react-click-n-hold": "^1.0.7",
     "react-dom": "^16.12.0",
