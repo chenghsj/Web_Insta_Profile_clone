@@ -17,7 +17,7 @@
     "react-click-n-hold": "^1.0.7",
     "react-dom": "^16.12.0",
     "react-glider-carousel": "^0.1.2",
-    "react-scripts": "^3.4.3",
+    "react-scripts": "^5.0.1",
     "react-sortable-hoc": "^1.11.0",
     "styled-components": "^5.1.1",
     "styled-components-breakpoint": "^3.0.0-preview.20",
